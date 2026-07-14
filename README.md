@@ -4,7 +4,7 @@ Aplikasi web interaktif **3D** untuk menggambarkan dan mengajarkan *Human Capita
 memetakan HR bukan sebagai kumpulan fungsi, melainkan sebagai **satu disiplin ilmu**: dari akar
 (ilmu dasar) hingga buah (nilai bisnis), sebagai fondasi *People Analytics Body of Knowledge (PABoK)*.
 
-> Sumber konten: dokumen "Pohon Ilmu Human Capital" · Divisi Operasional SDM
+> Sumber konten: dokumen "Pohon Ilmu Human Capital — The Human Capital Knowledge Tree"
 
 ## ✨ Fitur
 

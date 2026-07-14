@@ -1,7 +1,7 @@
 // ============================================================
 // Konten Pohon Ilmu Human Capital (dwibahasa ID/EN)
 // Sumber: "Pohon Ilmu Human Capital — The Human Capital
-// Knowledge Tree" · Divisi Operasional SDM
+// Knowledge Tree"
 // ============================================================
 
 export const LAYERS = {
@@ -856,6 +856,609 @@ export const KNOWLEDGE = {
     refs: ['HCBoK', 'PABoK'], related: ['Enterprise Value', 'Profitability', 'Productivity'],
     metric: B('Sudut analitik: human-capital value added (HCVA), korelasi praktik HC dengan TSR, dan pelaporan modal manusia.',
       'Analytics angle: human-capital value added (HCVA), correlation of HC practices with TSR, and human-capital reporting.'),
+  },
+
+  // ========== RANTING: Talent Acquisition ==========
+  'Employer Branding': {
+    def: B('Membangun reputasi organisasi sebagai tempat bekerja yang menarik, sehingga talenta terbaik ingin bergabung.',
+      'Building the organization\'s reputation as an attractive place to work so the best talent wants to join.'),
+    refs: ['HCBoK'],
+    metric: B('Sudut analitik: kekuatan merek pemberi kerja, sumber pelamar berkualitas, dan sentimen kandidat.',
+      'Analytics angle: employer-brand strength, quality-applicant sources, and candidate sentiment.'),
+  },
+  'Candidate Experience': {
+    def: B('Kualitas pengalaman yang dirasakan kandidat di sepanjang proses seleksi — cerminan budaya organisasi.',
+      'The quality of experience candidates feel throughout selection — a mirror of organizational culture.'),
+    refs: ['HCBoK'],
+    metric: B('Sudut analitik: candidate NPS, tingkat drop-off per tahap, dan waktu respons.',
+      'Analytics angle: candidate NPS, stage drop-off rates, and response time.'),
+  },
+  'Assessment': {
+    def: B('Penilaian objektif atas kapabilitas, potensi, dan kesesuaian kandidat menggunakan metode yang tervalidasi.',
+      'Objective evaluation of a candidate\'s capability, potential, and fit using validated methods.'),
+    refs: ['HCBoK', 'PABoK'],
+    metric: B('Sudut analitik: validitas prediktif alat asesmen terhadap kinerja aktual dan pengurangan bias.',
+      'Analytics angle: predictive validity of assessment tools against actual performance and bias reduction.'),
+  },
+  'Interview': {
+    def: B('Wawancara terstruktur untuk menggali kompetensi, motivasi, dan kesesuaian nilai kandidat.',
+      'Structured interviews to probe a candidate\'s competencies, motivation, and values fit.'),
+    refs: ['HCBoK'],
+  },
+  'Offer': {
+    def: B('Tahap penawaran kerja, negosiasi, dan penutupan — mengubah kandidat terpilih menjadi karyawan.',
+      'The offer, negotiation, and closing stage — turning a chosen candidate into an employee.'),
+    refs: ['HCBoK'],
+    metric: B('Sudut analitik: offer acceptance rate dan analisis alasan penolakan.',
+      'Analytics angle: offer acceptance rate and rejection-reason analysis.'),
+  },
+  'Onboarding': {
+    def: B('Proses menyambut dan mengintegrasikan karyawan baru agar cepat produktif dan terikat.',
+      'Welcoming and integrating new hires so they become productive and engaged quickly.'),
+    refs: ['HCBoK'],
+    metric: B('Sudut analitik: time-to-productivity, retensi 90 hari, dan dampak onboarding pada engagement awal.',
+      'Analytics angle: time-to-productivity, 90-day retention, and onboarding impact on early engagement.'),
+  },
+
+  // ========== RANTING: Learning ==========
+  'LMS': {
+    def: B('Learning Management System — platform untuk mengelola, menyampaikan, dan melacak pembelajaran.',
+      'Learning Management System — a platform to manage, deliver, and track learning.'),
+    refs: ['HCBoK', 'IHCMIS'],
+    metric: B('Sudut analitik: tingkat penyelesaian, keterlibatan konten, dan dampak belajar pada kinerja.',
+      'Analytics angle: completion rates, content engagement, and learning impact on performance.'),
+  },
+  'Certification': {
+    def: B('Pengakuan formal atas penguasaan kompetensi tertentu melalui uji atau akreditasi.',
+      'Formal recognition of mastery of a competency through testing or accreditation.'),
+    refs: ['HCBoK'],
+  },
+  'Learning Path': {
+    def: B('Rangkaian pembelajaran terstruktur yang membawa individu menuju kompetensi target sebuah peran.',
+      'A structured sequence of learning that moves an individual toward the target competencies of a role.'),
+    refs: ['HCBoK', 'PABoK'],
+    metric: B('Sudut analitik: rekomendasi jalur berbasis kesenjangan skill dan kemajuan penyelesaian.',
+      'Analytics angle: skills-gap-based path recommendations and completion progress.'),
+  },
+  'Knowledge Management': {
+    def: B('Menangkap, menyimpan, dan membagikan pengetahuan organisasi agar tidak hilang dan dapat dipakai ulang.',
+      'Capturing, storing, and sharing organizational knowledge so it is not lost and can be reused.'),
+    refs: ['HCBoK', 'IHCMIS'],
+    metric: B('Sudut analitik: knowledge graph keahlian, penggunaan ulang aset pengetahuan, dan pemetaan pakar.',
+      'Analytics angle: expertise knowledge graphs, knowledge-asset reuse, and expert mapping.'),
+  },
+
+  // ========== RANTING: Performance ==========
+  'KPI': {
+    def: B('Key Performance Indicator — ukuran kuantitatif keberhasilan terhadap sasaran yang telah ditetapkan.',
+      'Key Performance Indicator — a quantitative measure of success against a defined target.'),
+    refs: ['HCBoK', 'PABoK'],
+    metric: B('Sudut analitik: kesehatan KPI (achievement vs target), keselarasan cascading, dan deteksi anomali.',
+      'Analytics angle: KPI health (achievement vs target), cascading alignment, and anomaly detection.'),
+  },
+  'OKR': {
+    def: B('Objectives & Key Results — kerangka sasaran ambisius (Objective) yang diukur oleh hasil kunci (Key Results).',
+      'Objectives & Key Results — a framework of ambitious objectives measured by key results.'),
+    refs: ['HCBoK', 'PABoK'],
+    metric: B('Sudut analitik: tingkat pencapaian KR, garis pandang sasaran (line-of-sight), dan keselarasan lintas tim.',
+      'Analytics angle: key-result attainment, goal line-of-sight, and cross-team alignment.'),
+  },
+  'Calibration': {
+    def: B('Proses menyelaraskan penilaian kinerja antar penilai agar adil, konsisten, dan bebas bias.',
+      'The process of aligning performance ratings across raters so they are fair, consistent, and bias-free.'),
+    refs: ['HCBoK', 'PABoK'],
+    metric: B('Sudut analitik: analisis distribusi rating, deteksi bias penilai, dan konsistensi lintas unit.',
+      'Analytics angle: rating-distribution analysis, rater-bias detection, and cross-unit consistency.'),
+  },
+  'Reward': {
+    def: B('Pengaitan hasil kinerja dengan penghargaan — finansial maupun non-finansial — untuk memperkuat perilaku yang tepat.',
+      'Linking performance results to reward — financial and non-financial — to reinforce the right behaviors.'),
+    refs: ['HCBoK'],
+    metric: B('Sudut analitik: sensitivitas pay-for-performance dan keadilan distribusi penghargaan.',
+      'Analytics angle: pay-for-performance sensitivity and fairness of reward distribution.'),
+  },
+  'Coaching': {
+    def: B('Bimbingan berkelanjutan yang membantu individu menemukan solusi sendiri dan meningkatkan kinerja.',
+      'Ongoing guidance that helps individuals find their own solutions and improve performance.'),
+    refs: ['HCBoK'],
+  },
+
+  // ========== RANTING: Workforce Planning ==========
+  'Headcount Planning': {
+    def: B('Perencanaan jumlah dan alokasi posisi yang dibutuhkan sesuai anggaran dan strategi.',
+      'Planning the number and allocation of positions needed within budget and strategy.'),
+    refs: ['HCBoK', 'PABoK'],
+    metric: B('Sudut analitik: rencana vs aktual headcount, span & layer, dan biaya per posisi.',
+      'Analytics angle: planned vs actual headcount, span & layers, and cost per position.'),
+  },
+  'Demand Forecasting': {
+    def: B('Peramalan kebutuhan tenaga kerja masa depan berdasarkan strategi, pertumbuhan, dan tren.',
+      'Forecasting future workforce needs based on strategy, growth, and trends.'),
+    refs: ['PABoK'],
+    metric: B('Sudut analitik: model peramalan permintaan, sensitivitas terhadap skenario bisnis, dan akurasi prediksi.',
+      'Analytics angle: demand-forecast models, sensitivity to business scenarios, and prediction accuracy.'),
+  },
+  'Scenario Planning': {
+    def: B('Merancang beberapa skenario masa depan tenaga kerja untuk menguji ketahanan rencana.',
+      'Designing several future workforce scenarios to test the resilience of plans.'),
+    refs: ['PABoK', 'HCAF'],
+    metric: B('Sudut analitik: pemodelan what-if, analisis sensitivitas, dan perencanaan kapasitas.',
+      'Analytics angle: what-if modeling, sensitivity analysis, and capacity planning.'),
+  },
+  'Skills Inventory': {
+    def: B('Pemetaan menyeluruh atas skill yang dimiliki organisasi saat ini — dasar perencanaan kapabilitas.',
+      'A comprehensive map of the skills the organization holds today — the basis for capability planning.'),
+    refs: ['HCBoK', 'PABoK'],
+    metric: B('Sudut analitik: taksonomi skill, kesenjangan skill vs kebutuhan, dan skill adjacency.',
+      'Analytics angle: skills taxonomy, skill gaps vs needs, and skill adjacency.'),
+  },
+
+  // ========== RANTING: Core HR ==========
+  'Employee Data': {
+    def: B('Data master kepegawaian yang akurat dan tepercaya — fondasi seluruh proses dan analitik HC.',
+      'Accurate, trusted core employee records — the foundation of all HC processes and analytics.'),
+    refs: ['HCBoK', 'IHCMIS'],
+    metric: B('Sudut analitik: kualitas & kelengkapan data serta single source of truth.',
+      'Analytics angle: data quality & completeness and a single source of truth.'),
+  },
+  'Payroll Admin': {
+    def: B('Administrasi penggajian yang akurat dan tepat waktu, termasuk pajak dan potongan.',
+      'Accurate, timely payroll administration, including taxes and deductions.'),
+    refs: ['HCBoK', 'IHCMIS'],
+    metric: B('Sudut analitik: akurasi payroll, ketepatan waktu, dan tingkat koreksi.',
+      'Analytics angle: payroll accuracy, timeliness, and correction rates.'),
+  },
+  'Time & Attendance': {
+    def: B('Pencatatan waktu kerja, kehadiran, lembur, dan cuti sebagai dasar penggajian dan produktivitas.',
+      'Recording work time, attendance, overtime, and leave as the basis for pay and productivity.'),
+    refs: ['HCBoK', 'IHCMIS'],
+    metric: B('Sudut analitik: pola absensi, tren lembur, dan pemanfaatan cuti.',
+      'Analytics angle: absence patterns, overtime trends, and leave utilization.'),
+  },
+  'Benefits Admin': {
+    def: B('Administrasi tunjangan dan manfaat karyawan — asuransi, pensiun, dan fasilitas.',
+      'Administration of employee benefits — insurance, pensions, and facilities.'),
+    refs: ['HCBoK', 'IHCMIS'],
+  },
+  'Compliance': {
+    def: B('Memastikan seluruh proses kepegawaian mematuhi regulasi ketenagakerjaan dan kebijakan internal.',
+      'Ensuring all HR processes comply with labor regulations and internal policy.'),
+    refs: ['HCBoK'],
+    metric: B('Sudut analitik: pelacakan kepatuhan, jejak audit, dan deteksi risiko.',
+      'Analytics angle: compliance tracking, audit trails, and risk detection.'),
+  },
+
+  // ========== RANTING: Talent Management ==========
+  'Talent Review': {
+    def: B('Peninjauan berkala atas kinerja, potensi, dan risiko talenta oleh kepemimpinan.',
+      'A periodic leadership review of talent performance, potential, and risk.'),
+    refs: ['HCBoK', 'PABoK'],
+    metric: B('Sudut analitik: distribusi talenta, konsistensi penilaian, dan tindak lanjut keputusan.',
+      'Analytics angle: talent distribution, assessment consistency, and decision follow-through.'),
+  },
+  '9-Box Grid': {
+    def: B('Matriks sembilan kotak yang memetakan talenta pada dimensi kinerja dan potensi.',
+      'A nine-box matrix mapping talent on the dimensions of performance and potential.'),
+    refs: ['HCBoK', 'PABoK'],
+    metric: B('Sudut analitik: sebaran 9-box, pergerakan antar-kuadran dari waktu ke waktu, dan bias kalibrasi.',
+      'Analytics angle: 9-box spread, quadrant movement over time, and calibration bias.'),
+  },
+  'High-Potential': {
+    def: B('Identifikasi dan pengembangan individu berpotensi tinggi untuk peran yang lebih besar.',
+      'Identifying and developing high-potential individuals for larger roles.'),
+    refs: ['HCBoK', 'PABoK'],
+    metric: B('Sudut analitik: prediksi flight-risk hi-po, kesiapan promosi, dan efektivitas program.',
+      'Analytics angle: high-potential flight-risk prediction, promotion readiness, and program effectiveness.'),
+  },
+  'Career Path': {
+    def: B('Jalur pengembangan karier yang jelas — memberi arah tumbuh dan alasan untuk bertahan.',
+      'Clear career development paths — giving direction for growth and a reason to stay.'),
+    refs: ['HCBoK', 'PABoK'],
+    metric: B('Sudut analitik: pemetaan pergerakan karier, career adjacency, dan dampak pada retensi.',
+      'Analytics angle: career-movement mapping, career adjacency, and impact on retention.'),
+  },
+  'Mobility': {
+    def: B('Perpindahan talenta lintas peran, unit, atau lokasi untuk pengembangan dan pemenuhan kebutuhan.',
+      'Moving talent across roles, units, or locations for development and to meet needs.'),
+    refs: ['HCBoK', 'PABoK'],
+    metric: B('Sudut analitik: tingkat mobilitas internal, keberhasilan penempatan, dan time-to-fill internal.',
+      'Analytics angle: internal mobility rate, placement success, and internal time-to-fill.'),
+  },
+
+  // ========== RANTING: Rewards ==========
+  'Compensation': {
+    def: B('Gaji dan upah pokok yang mencerminkan nilai peran dan kondisi pasar.',
+      'Base salary and wages reflecting role value and market conditions.'),
+    refs: ['HCBoK', 'PABoK'],
+    metric: B('Sudut analitik: compa-ratio, posisi terhadap pasar, dan analisis pay equity (termasuk gap gender).',
+      'Analytics angle: compa-ratio, market positioning, and pay-equity analysis (including gender gap).'),
+  },
+  'Benefits': {
+    def: B('Tunjangan dan manfaat non-gaji yang mendukung kesejahteraan dan keterikatan karyawan.',
+      'Non-salary benefits that support employee wellbeing and engagement.'),
+    refs: ['HCBoK'],
+    metric: B('Sudut analitik: pemanfaatan benefit, nilai yang dirasakan, dan efektivitas biaya.',
+      'Analytics angle: benefits utilization, perceived value, and cost effectiveness.'),
+  },
+  'Incentives': {
+    def: B('Imbalan variabel yang dikaitkan dengan pencapaian kinerja individu, tim, atau perusahaan.',
+      'Variable rewards tied to individual, team, or company performance achievement.'),
+    refs: ['HCBoK', 'PABoK'],
+    metric: B('Sudut analitik: efektivitas insentif, korelasi dengan kinerja, dan risiko konsekuensi tak diinginkan.',
+      'Analytics angle: incentive effectiveness, correlation with performance, and unintended-consequence risk.'),
+  },
+  'Recognition': {
+    def: B('Penghargaan non-finansial yang mengakui kontribusi dan memperkuat perilaku sesuai nilai.',
+      'Non-financial recognition that acknowledges contribution and reinforces values-aligned behavior.'),
+    refs: ['HCBoK'],
+    metric: B('Sudut analitik: cakupan & frekuensi apresiasi serta kaitannya dengan engagement.',
+      'Analytics angle: recognition reach & frequency and its link to engagement.'),
+  },
+  'Job Grading': {
+    def: B('Penilaian bobot dan penetapan tingkatan jabatan sebagai dasar struktur kompensasi yang adil.',
+      'Evaluating job weight and setting grade levels as the basis for a fair compensation structure.'),
+    refs: ['HCBoK'],
+    metric: B('Sudut analitik: konsistensi grading, kompresi bayar, dan integritas struktur jabatan.',
+      'Analytics angle: grading consistency, pay compression, and job-structure integrity.'),
+  },
+
+  // ========== RANTING: Employee Relations ==========
+  'Grievance Handling': {
+    def: B('Penanganan keluhan karyawan secara adil, cepat, dan transparan untuk menjaga kepercayaan.',
+      'Handling employee grievances fairly, promptly, and transparently to preserve trust.'),
+    refs: ['HCBoK'],
+    metric: B('Sudut analitik: tema & tren keluhan, waktu penyelesaian, dan sinyal risiko dini.',
+      'Analytics angle: grievance themes & trends, resolution time, and early risk signals.'),
+  },
+  'Discipline': {
+    def: B('Penegakan aturan dan konsekuensi yang adil dan konsisten atas pelanggaran.',
+      'Fair, consistent enforcement of rules and consequences for violations.'),
+    refs: ['HCBoK'],
+  },
+  'Wellbeing': {
+    def: B('Kesejahteraan fisik, mental, sosial, dan finansial karyawan — fondasi keterikatan dan keberlanjutan.',
+      'Employees\' physical, mental, social, and financial wellbeing — the foundation of engagement and sustainability.'),
+    refs: ['HCBoK', 'PABoK'],
+    metric: B('Sudut analitik: indeks wellbeing, sinyal burnout, dan kaitannya dengan absensi & retensi.',
+      'Analytics angle: wellbeing index, burnout signals, and links to absence & retention.'),
+  },
+  'Engagement Survey': {
+    def: B('Pengukuran berkala atas keterikatan karyawan dan driver-nya sebagai dasar tindakan perbaikan.',
+      'Periodic measurement of employee engagement and its drivers as the basis for action.'),
+    refs: ['HCBoK', 'PABoK'],
+    metric: B('Sudut analitik: eNPS, analisis driver, pemodelan penggerak keterikatan, dan analitik teks komentar.',
+      'Analytics angle: eNPS, driver analysis, engagement-driver modeling, and comment-text analytics.'),
+  },
+  'Exit Management': {
+    def: B('Pengelolaan proses keluar karyawan dan pembelajaran dari alasan kepergian.',
+      'Managing employee exits and learning from the reasons people leave.'),
+    refs: ['HCBoK', 'PABoK'],
+    metric: B('Sudut analitik: analisis alasan keluar, turnover yang dapat dicegah, dan regretted attrition.',
+      'Analytics angle: exit-reason analysis, preventable turnover, and regretted attrition.'),
+  },
+
+  // ========== RANTING: Industrial Relations ==========
+  'Union Relations': {
+    def: B('Membangun hubungan konstruktif dengan serikat pekerja untuk stabilitas dan kemitraan.',
+      'Building constructive relations with unions for stability and partnership.'),
+    refs: ['HCBoK'],
+  },
+  'PKB / CLA': {
+    def: B('Perjanjian Kerja Bersama (Collective Labour Agreement) — kesepakatan hak dan kewajiban antara perusahaan dan pekerja.',
+      'Collective Labour Agreement — the negotiated rights and obligations between company and workers.'),
+    refs: ['HCBoK'],
+    metric: B('Sudut analitik: kepatuhan klausul PKB dan pemantauan komitmen bersama.',
+      'Analytics angle: agreement-clause compliance and joint-commitment monitoring.'),
+  },
+  'Dispute Resolution': {
+    def: B('Penyelesaian perselisihan hubungan industrial melalui dialog, mediasi, atau jalur formal.',
+      'Resolving industrial-relations disputes through dialogue, mediation, or formal channels.'),
+    refs: ['HCBoK'],
+    metric: B('Sudut analitik: tren & durasi perselisihan serta efektivitas mekanisme penyelesaian.',
+      'Analytics angle: dispute trends & duration and resolution-mechanism effectiveness.'),
+  },
+  'Labor Compliance': {
+    def: B('Kepatuhan terhadap undang-undang ketenagakerjaan dan standar hubungan industrial.',
+      'Compliance with labor law and industrial-relations standards.'),
+    refs: ['HCBoK'],
+  },
+
+  // ========== RANTING: Organization Development ==========
+  'Org Design': {
+    def: B('Perancangan struktur, peran, dan mekanisme koordinasi agar organisasi mampu mengeksekusi strategi.',
+      'Designing structure, roles, and coordination so the organization can execute strategy.'),
+    refs: ['HCBoK', 'HCAF'],
+    metric: B('Sudut analitik: analisis span & layer, biaya struktur, dan analisis jaringan organisasi (ONA).',
+      'Analytics angle: span & layer analysis, structure cost, and organizational network analysis (ONA).'),
+  },
+  'Change Management': {
+    def: B('Pengelolaan sisi manusia dari perubahan agar transformasi diterima, diadopsi, dan lestari.',
+      'Managing the human side of change so transformation is accepted, adopted, and sustained.'),
+    refs: ['HCBoK', 'HCAF'],
+    metric: B('Sudut analitik: kesiapan perubahan, kecepatan & kedalaman adopsi, dan titik resistensi.',
+      'Analytics angle: change readiness, adoption speed & depth, and resistance hotspots.'),
+  },
+  'Team Effectiveness': {
+    def: B('Meningkatkan cara tim bekerja bersama — kejelasan tujuan, peran, kepercayaan, dan hasil.',
+      'Improving how teams work together — clarity of goals, roles, trust, and results.'),
+    refs: ['HCBoK', 'PABoK'],
+    metric: B('Sudut analitik: pola kolaborasi tim (ONA), keberagaman, dan korelasi dengan kinerja tim.',
+      'Analytics angle: team collaboration patterns (ONA), diversity, and correlation with team performance.'),
+  },
+  'Culture Transformation': {
+    def: B('Menggeser nilai, perilaku, dan norma organisasi secara sengaja menuju budaya yang diinginkan.',
+      'Deliberately shifting organizational values, behaviors, and norms toward a desired culture.'),
+    refs: ['HCBoK', 'PABoK'],
+    metric: B('Sudut analitik: pengukuran budaya sebelum–sesudah, kesenjangan nilai–perilaku, dan sentimen internal.',
+      'Analytics angle: before–after culture measurement, values–behavior gaps, and internal sentiment.'),
+  },
+
+  // ========== RANTING: Leadership & Succession ==========
+  'Leadership Pipeline': {
+    def: B('Aliran pasokan pemimpin siap-pakai di setiap tingkat organisasi.',
+      'The flow of ready leaders at every level of the organization.'),
+    refs: ['HCBoK', 'PABoK'],
+    metric: B('Sudut analitik: kedalaman bangku, rasio kesiapan, dan waktu-menuju-kesiapan.',
+      'Analytics angle: bench depth, readiness ratio, and time-to-readiness.'),
+  },
+  'Succession Planning': {
+    def: B('Menyiapkan penerus untuk peran kritis agar keberlanjutan kepemimpinan terjaga.',
+      'Preparing successors for critical roles so leadership continuity is assured.'),
+    refs: ['HCBoK', 'PABoK'],
+    metric: B('Sudut analitik: cakupan suksesi peran kritis, kesiapan kandidat, dan risiko kekosongan kunci.',
+      'Analytics angle: critical-role succession coverage, candidate readiness, and key-vacancy risk.'),
+  },
+  'Executive Assessment': {
+    def: B('Asesmen mendalam atas kapabilitas, gaya, dan potensi pemimpin senior.',
+      'In-depth assessment of senior leaders\' capability, style, and potential.'),
+    refs: ['HCBoK', 'PABoK'],
+  },
+  'Coaching & Mentoring': {
+    def: B('Pengembangan pemimpin melalui bimbingan (coaching) dan transfer kebijaksanaan (mentoring).',
+      'Developing leaders through coaching guidance and mentoring wisdom transfer.'),
+    refs: ['HCBoK'],
+  },
+
+  // ========== RANTING: Culture ==========
+  'Values & Behaviors': {
+    def: B('Nilai inti dan perilaku nyata yang diharapkan — jembatan antara keyakinan dan tindakan.',
+      'Core values and the concrete behaviors expected — the bridge between belief and action.'),
+    refs: ['HCBoK'],
+    metric: B('Sudut analitik: kesesuaian nilai–perilaku dan konsistensi lintas unit.',
+      'Analytics angle: values–behavior alignment and cross-unit consistency.'),
+  },
+  'Rituals': {
+    def: B('Kebiasaan dan ritual bersama yang menghidupkan budaya dalam keseharian.',
+      'Shared habits and rituals that bring culture to life day to day.'),
+    refs: ['HCBoK'],
+  },
+  'Culture Survey': {
+    def: B('Pengukuran budaya organisasi untuk memahami keadaan saat ini dan kesenjangan menuju budaya ideal.',
+      'Measuring organizational culture to understand the current state and gaps to the target culture.'),
+    refs: ['HCBoK', 'PABoK'],
+    metric: B('Sudut analitik: profil budaya, kesenjangan aktual–ideal, dan analitik sentimen.',
+      'Analytics angle: culture profile, actual–ideal gaps, and sentiment analytics.'),
+  },
+  'Internal Communication': {
+    def: B('Aliran komunikasi dua arah yang membangun keselarasan, kepercayaan, dan keterikatan.',
+      'Two-way communication flow that builds alignment, trust, and engagement.'),
+    refs: ['HCBoK'],
+    metric: B('Sudut analitik: jangkauan & keterlibatan pesan serta sentimen tanggapan.',
+      'Analytics angle: message reach & engagement and response sentiment.'),
+  },
+
+  // ========== RANTING: HSE ==========
+  'Safety Management': {
+    def: B('Sistem mengelola risiko keselamatan kerja untuk mencegah insiden dan melindungi manusia.',
+      'A system to manage occupational-safety risk to prevent incidents and protect people.'),
+    refs: ['HCBoK', 'PABoK'],
+    metric: B('Sudut analitik: leading vs lagging indicator, prediksi insiden, dan analisis akar penyebab.',
+      'Analytics angle: leading vs lagging indicators, incident prediction, and root-cause analysis.'),
+  },
+  'Occupational Health': {
+    def: B('Menjaga kesehatan kerja dan mencegah penyakit akibat pekerjaan.',
+      'Safeguarding occupational health and preventing work-related illness.'),
+    refs: ['HCBoK'],
+    metric: B('Sudut analitik: tren kesehatan kerja, absensi terkait kesehatan, dan efektivitas program.',
+      'Analytics angle: occupational-health trends, health-related absence, and program effectiveness.'),
+  },
+  'Environment': {
+    def: B('Pengelolaan dampak lingkungan dari operasi — bagian "E" dari ESG.',
+      'Managing the environmental impact of operations — the "E" in ESG.'),
+    refs: ['HCBoK'],
+  },
+  'Emergency Response': {
+    def: B('Kesiapsiagaan dan respons cepat terhadap keadaan darurat untuk melindungi manusia dan aset.',
+      'Preparedness and rapid response to emergencies to protect people and assets.'),
+    refs: ['HCBoK'],
+  },
+  'Safety Culture': {
+    def: B('Nilai dan perilaku bersama yang menjadikan keselamatan sebagai prioritas naluriah, bukan sekadar aturan.',
+      'Shared values and behaviors that make safety an instinctive priority, not just a rule.'),
+    refs: ['HCBoK', 'PABoK'],
+    metric: B('Sudut analitik: indeks budaya selamat, pelaporan near-miss, dan perilaku selamat proaktif.',
+      'Analytics angle: safety-culture index, near-miss reporting, and proactive safe behaviors.'),
+  },
+
+  // ========== RANTING: HR Operations ==========
+  'Shared Services': {
+    def: B('Pusat layanan HR terpusat yang efisien untuk transaksi dan pertanyaan rutin.',
+      'A centralized, efficient HR service center for routine transactions and questions.'),
+    refs: ['HCBoK', 'IHCMIS'],
+    metric: B('Sudut analitik: biaya per transaksi, waktu penyelesaian, dan tingkat penyelesaian sekali sentuh.',
+      'Analytics angle: cost per transaction, resolution time, and first-contact resolution rate.'),
+  },
+  'HR Helpdesk': {
+    def: B('Titik kontak pertama karyawan untuk pertanyaan dan bantuan terkait HR.',
+      'The employee\'s first point of contact for HR questions and help.'),
+    refs: ['HCBoK', 'IHCMIS'],
+    metric: B('Sudut analitik: volume & tema tiket, kepuasan layanan, dan otomasi jawaban.',
+      'Analytics angle: ticket volume & themes, service satisfaction, and answer automation.'),
+  },
+  'SLA Management': {
+    def: B('Pengelolaan tingkat layanan (Service Level Agreement) agar layanan HR andal dan terukur.',
+      'Managing Service Level Agreements so HR services are reliable and measurable.'),
+    refs: ['HCBoK'],
+    metric: B('Sudut analitik: kepatuhan SLA, tren pelanggaran, dan analisis kemacetan proses.',
+      'Analytics angle: SLA compliance, breach trends, and process-bottleneck analysis.'),
+  },
+  'Document Management': {
+    def: B('Pengelolaan dokumen kepegawaian yang aman, teratur, dan patuh regulasi.',
+      'Secure, orderly, compliant management of employee documents.'),
+    refs: ['HCBoK', 'IHCMIS'],
+  },
+
+  // ========== RANTING: Digital Human Capital ==========
+  'HRIS': {
+    def: B('Human Resource Information System — sistem inti yang menyatukan data dan proses HC.',
+      'Human Resource Information System — the core system unifying HC data and processes.'),
+    refs: ['IHCMIS', 'PABoK'],
+    metric: B('Sudut analitik: integritas data, adopsi sistem, dan kesiapan data untuk analitik.',
+      'Analytics angle: data integrity, system adoption, and analytics-readiness of data.'),
+  },
+  'Employee Self-Service': {
+    def: B('Kemampuan karyawan mengurus kebutuhan HR mereka sendiri secara mandiri dan digital.',
+      'Employees\' ability to handle their own HR needs independently and digitally.'),
+    refs: ['IHCMIS'],
+    metric: B('Sudut analitik: tingkat adopsi self-service dan pengurangan beban transaksi manual.',
+      'Analytics angle: self-service adoption and reduction of manual transaction load.'),
+  },
+  'HR Automation': {
+    def: B('Otomasi proses HR berulang untuk kecepatan, akurasi, dan pembebasan waktu bernilai tinggi.',
+      'Automating repetitive HR processes for speed, accuracy, and freeing high-value time.'),
+    refs: ['IHCMIS', 'PABoK'],
+    metric: B('Sudut analitik: tingkat otomasi proses, waktu siklus, dan tingkat kesalahan.',
+      'Analytics angle: process automation rate, cycle time, and error rate.'),
+  },
+  'Analytics Platform': {
+    def: B('Platform yang mengubah data HC menjadi insight dan keputusan — perwujudan lapisan kecerdasan.',
+      'A platform turning HC data into insight and decisions — the intelligence layer made real.'),
+    refs: ['PABoK', 'IHCMIS'],
+    metric: B('Sudut analitik: cakupan metrik, adopsi dashboard, dan kematangan analitik (deskriptif→prediktif→preskriptif).',
+      'Analytics angle: metric coverage, dashboard adoption, and analytics maturity (descriptive→predictive→prescriptive).'),
+  },
+  'AI Assistant': {
+    def: B('Asisten berbasis AI yang menjawab pertanyaan, merekomendasikan tindakan, dan mendukung keputusan HC.',
+      'An AI-based assistant that answers questions, recommends actions, and supports HC decisions.'),
+    refs: ['PABoK', 'IHCMIS'],
+    metric: B('Sudut analitik: akurasi jawaban, cakupan kasus penggunaan, dan tata kelola & etika AI.',
+      'Analytics angle: answer accuracy, use-case coverage, and AI governance & ethics.'),
+  },
+
+  // ========== SUB-ILMU: Behavioral Sciences ==========
+  'Psychology': {
+    def: B('Ilmu tentang pikiran dan perilaku manusia — dasar memahami motivasi, persepsi, dan pembelajaran individu.',
+      'The science of the human mind and behavior — the basis for understanding individual motivation, perception, and learning.'),
+    refs: ['HCBoK'],
+  },
+  'Organizational Behavior': {
+    def: B('Studi tentang bagaimana individu dan kelompok berperilaku dalam organisasi.',
+      'The study of how individuals and groups behave within organizations.'),
+    refs: ['HCBoK'],
+  },
+  'Motivation Theory': {
+    def: B('Kerangka yang menjelaskan mengapa orang bertindak — dari kebutuhan hingga tujuan dan penghargaan.',
+      'Frameworks explaining why people act — from needs to goals and rewards.'),
+    refs: ['HCBoK'],
+  },
+  'Learning Theory': {
+    def: B('Prinsip tentang bagaimana manusia memperoleh, menyimpan, dan menerapkan pengetahuan dan keterampilan.',
+      'Principles of how humans acquire, retain, and apply knowledge and skills.'),
+    refs: ['HCBoK'],
+  },
+
+  // ========== SUB-ILMU: Management & Organization Sciences ==========
+  'Organizational Theory': {
+    def: B('Teori tentang bagaimana organisasi terstruktur, beradaptasi, dan bertahan.',
+      'Theory of how organizations are structured, adapt, and endure.'),
+    refs: ['HCBoK', 'HCAF'],
+  },
+  'Strategic Management': {
+    def: B('Disiplin merumuskan dan mengeksekusi strategi untuk keunggulan bersaing yang berkelanjutan.',
+      'The discipline of formulating and executing strategy for sustainable competitive advantage.'),
+    refs: ['HCBoK', 'HCAF'],
+  },
+  'Leadership Studies': {
+    def: B('Kajian akademis tentang kepemimpinan — gaya, efektivitas, dan pengembangannya.',
+      'The academic study of leadership — styles, effectiveness, and development.'),
+    refs: ['HCBoK'],
+  },
+
+  // ========== SUB-ILMU: Quantitative Sciences ==========
+  'Statistics': {
+    def: B('Ilmu mengumpulkan, menganalisis, dan menafsirkan data — bahasa dasar People Analytics.',
+      'The science of collecting, analyzing, and interpreting data — the base language of People Analytics.'),
+    refs: ['PABoK'],
+    metric: B('Sudut analitik: uji hipotesis, interval kepercayaan, dan signifikansi temuan HC.',
+      'Analytics angle: hypothesis testing, confidence intervals, and significance of HC findings.'),
+  },
+  'Econometrics': {
+    def: B('Penerapan metode statistika pada data ekonomi & organisasi untuk menaksir hubungan sebab-akibat.',
+      'Applying statistical methods to economic & organizational data to estimate causal relationships.'),
+    refs: ['PABoK'],
+    metric: B('Sudut analitik: pemodelan kausal, regresi driver, dan estimasi dampak intervensi HC.',
+      'Analytics angle: causal modeling, driver regression, and estimating the impact of HC interventions.'),
+  },
+  'Operations Research': {
+    def: B('Metode optimasi kuantitatif untuk keputusan alokasi sumber daya dan penjadwalan.',
+      'Quantitative optimization methods for resource-allocation and scheduling decisions.'),
+    refs: ['PABoK'],
+    metric: B('Sudut analitik: optimasi tenaga kerja, penjadwalan shift, dan alokasi kapasitas.',
+      'Analytics angle: workforce optimization, shift scheduling, and capacity allocation.'),
+  },
+  'Economics': {
+    def: B('Ilmu tentang alokasi sumber daya langka — dasar memahami pasar tenaga kerja dan nilai modal manusia.',
+      'The science of allocating scarce resources — the basis for understanding labor markets and human-capital value.'),
+    refs: ['HCBoK', 'PABoK'],
+  },
+
+  // ========== SUB-ILMU: Computational & Data Sciences ==========
+  'Databases': {
+    def: B('Sistem menyimpan dan mengelola data secara terstruktur — fondasi teknis semua analitik.',
+      'Systems to store and manage data in a structured way — the technical foundation of all analytics.'),
+    refs: ['IHCMIS', 'PABoK'],
+  },
+  'Machine Learning': {
+    def: B('Algoritma yang belajar pola dari data untuk memprediksi dan merekomendasikan.',
+      'Algorithms that learn patterns from data to predict and recommend.'),
+    refs: ['PABoK'],
+    metric: B('Sudut analitik: model prediksi attrition, rekomendasi belajar/karier, dan segmentasi tenaga kerja.',
+      'Analytics angle: attrition-prediction models, learning/career recommendations, and workforce segmentation.'),
+  },
+  'Artificial Intelligence': {
+    def: B('Sistem yang meniru kemampuan kognitif manusia — dari pemahaman bahasa hingga pengambilan keputusan.',
+      'Systems that emulate human cognitive abilities — from language understanding to decision-making.'),
+    refs: ['PABoK', 'IHCMIS'],
+    metric: B('Sudut analitik: asisten HC generatif, otomasi keputusan, dan tata kelola & etika AI.',
+      'Analytics angle: generative HC assistants, decision automation, and AI governance & ethics.'),
+  },
+  'Knowledge Graphs': {
+    def: B('Representasi pengetahuan sebagai jaringan entitas dan relasi — menghubungkan skill, peran, orang, dan hasil.',
+      'Representing knowledge as a network of entities and relations — linking skills, roles, people, and outcomes.'),
+    refs: ['PABoK', 'IHCMIS'],
+    metric: B('Sudut analitik: graf skill-peran-orang, penalaran keterhubungan, dan penemuan jalur karier.',
+      'Analytics angle: skill-role-person graphs, relationship reasoning, and career-path discovery.'),
+  },
+
+  // ========== SUB-ILMU: Law & Ethics ==========
+  'Employment Law': {
+    def: B('Kerangka hukum yang mengatur hubungan kerja — hak, kewajiban, dan perlindungan pekerja.',
+      'The legal framework governing employment — rights, obligations, and worker protections.'),
+    refs: ['HCBoK'],
+  },
+  'Data Privacy': {
+    def: B('Perlindungan data pribadi karyawan — makin krusial saat People Analytics mengolah data manusia.',
+      'Protecting employees\' personal data — ever more crucial as People Analytics processes human data.'),
+    refs: ['HCBoK', 'PABoK'],
+    metric: B('Sudut analitik: privacy-by-design, minimisasi & anonimisasi data, dan jejak persetujuan.',
+      'Analytics angle: privacy-by-design, data minimization & anonymization, and consent trails.'),
+  },
+  'Ethics': {
+    def: B('Prinsip moral yang memandu keputusan HC dan analitik agar adil, transparan, dan menghormati manusia.',
+      'Moral principles guiding HC and analytics decisions to be fair, transparent, and respectful of people.'),
+    refs: ['HCBoK', 'PABoK'],
+    metric: B('Sudut analitik: audit bias & keadilan model, transparansi algoritma, dan tata kelola etis.',
+      'Analytics angle: model bias & fairness audits, algorithmic transparency, and ethical governance.'),
   },
 };
 
