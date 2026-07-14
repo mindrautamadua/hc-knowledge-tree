@@ -493,11 +493,12 @@ export function buildTree(quality = 'high') {
   canopy.instanceMatrix.needsUpdate = true;
   groups.daun.add(canopy);
 
-  // hembusan angin lembut pada seluruh mahkota
+  // hembusan angin — pelepah & anak daun bergoyang serempak (pohon "bernapas")
   anim.push((t) => {
-    groups.daun.rotation.z = Math.sin(t * 0.5) * 0.012;
-    groups.cabang.rotation.z = Math.sin(t * 0.5) * 0.008;
-    groups.cabang.rotation.x = Math.cos(t * 0.42) * 0.006;
+    const swayZ = Math.sin(t * 0.55) * 0.02 + Math.sin(t * 1.3) * 0.006;
+    const swayX = Math.cos(t * 0.42) * 0.014;
+    groups.cabang.rotation.z = swayZ; groups.daun.rotation.z = swayZ;
+    groups.cabang.rotation.x = swayX; groups.daun.rotation.x = swayX;
   });
 
   // 8 kapabilitas — di ujung pelepah terpilih
@@ -580,7 +581,8 @@ export function buildTree(quality = 'high') {
   }
 
   // ============ INTELLIGENCE LAYER (aliran partikel) ============
-  const P_N = quality === 'high' ? 1400 : 600;
+  const P_BASE = 1.4;
+  const P_N = quality === 'high' ? 2200 : 950;
   const SAMPLES = 160;
   const flowPaths = [];
   for (let i = 0; i < branchEnds.length; i++) {
@@ -603,11 +605,11 @@ export function buildTree(quality = 'high') {
   const pPos = new Float32Array(P_N * 3);
   const pCol = new Float32Array(P_N * 3);
   const meta = [];
-  const cCyan = new THREE.Color('#4cc9f0');
-  const cGold = new THREE.Color('#f0c94c');
+  const cCyan = new THREE.Color('#5ad4ff');
+  const cGold = new THREE.Color('#ffd76a');
   const cWhite = new THREE.Color('#eafff7');
   for (let i = 0; i < P_N; i++) {
-    const c = Math.random() < 0.62 ? cCyan : (Math.random() < 0.5 ? cGold : cWhite);
+    const c = Math.random() < 0.68 ? cCyan : (Math.random() < 0.5 ? cGold : cWhite);
     pCol[i * 3] = c.r; pCol[i * 3 + 1] = c.g; pCol[i * 3 + 2] = c.b;
     meta.push({
       path: (Math.random() * flowPaths.length) | 0,
@@ -618,7 +620,7 @@ export function buildTree(quality = 'high') {
   pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
   pGeo.setAttribute('color', new THREE.BufferAttribute(pCol, 3));
   const pMat = new THREE.PointsMaterial({
-    size: 0.85, map: softGlow, vertexColors: true, transparent: true,
+    size: P_BASE, map: softGlow, vertexColors: true, transparent: true,
     opacity: 1, blending: THREE.AdditiveBlending, depthWrite: false,
     sizeAttenuation: true,
   });
@@ -751,7 +753,7 @@ export function buildTree(quality = 'high') {
     groups.buah.scale.setScalar(eOut(stage(u, 0.75, 1)));
     const iu = stage(u, 0.85, 1);
     groups.intelligence.visible = iu > 0.02;
-    pMat.size = 0.85 * iu * healthSize;
+    pMat.size = P_BASE * iu * healthSize;
   }
 
   // ============================================================
@@ -775,7 +777,7 @@ export function buildTree(quality = 'high') {
       if (f.stalk) f.stalk.visible = on;
     });
     healthSize = 0.35 + 0.65 * h;
-    pMat.size = 0.85 * healthSize * (growthU >= 1 ? 1 : growthU);
+    pMat.size = P_BASE * healthSize * (growthU >= 1 ? 1 : growthU);
     warmHealth.h = h;
   }
   const warmHealth = { h: 1 };
@@ -829,7 +831,7 @@ export function buildTree(quality = 'high') {
         const detail = isAkar
           ? { id: `Sub-ilmu dari rumpun ${domainName}.`, en: `A sub-science of ${domainName}.` }
           : { id: `Ranting dari cabang ${domainName}.`, en: `A twig of the ${domainName} branch.` };
-        core.userData = { node: { layer: isAkar ? 'akar' : 'cabang', name: subs[s], detail, labelColor: twigHex } };
+        core.userData = { node: { layer: isAkar ? 'akar' : 'cabang', name: subs[s], detail, labelColor: twigHex, parent: domainName, leaf: true } };
         interactives.push(core);
         const lb = labelSprite(subs[s], twigHex, { scale: 0.62 });
         lb.position.y = 0.55;
@@ -911,6 +913,26 @@ export function buildTree(quality = 'high') {
   // ============================================================
   // SIANG / MALAM — sesuaikan elemen kanvas 3D
   // ============================================================
+  // ============================================================
+  // MUSIM — palet daun berubah (living framework)
+  // ============================================================
+  const SEASON_LEAVES = {
+    spring: ['#7ec850', '#8fd75f', '#a3e072', '#6bbf46', '#b6e88a', '#95d867'],
+    summer: ['#3f8a37', '#4f9a40', '#5aa848', '#357f2f', '#68b455', '#2f7028'],
+    autumn: ['#d98a2b', '#e0a03a', '#c8701f', '#e8b64c', '#b5641a', '#d4922e'],
+    winter: ['#93ab8c', '#7f9c8a', '#a3b8a4', '#6e8c78', '#b0bcae', '#849c8a'],
+  };
+  function setSeason(s) {
+    const pal = SEASON_LEAVES[s] || SEASON_LEAVES.summer;
+    for (let i = 0; i < LEAF_N; i++) {
+      const c = new THREE.Color(pal[i % pal.length]);
+      leafBaseColors[i] = c;
+      canopy.setColorAt(i, c);
+    }
+    if (canopy.instanceColor) canopy.instanceColor.needsUpdate = true;
+  }
+  function setGround(hex) { ground.material.color.set(hex); }
+
   function setDaytime(day) {
     stars.visible = !day;
     ff.visible = !day;                 // kunang-kunang hanya malam
@@ -929,7 +951,7 @@ export function buildTree(quality = 'high') {
   return {
     root, groups, labels, interactives, anim,
     setGrowth, setHealth, toggleRanting, isRantingOpen,
-    showValuePath, clearValuePath, setDaytime,
+    showValuePath, clearValuePath, setDaytime, setSeason, setGround,
     hasRanting: (name) => !!RANTING[name] || !!RANTING_AKAR[name],
     isFruit: (name) => fruitGroups.some((f) => f.name === name),
   };

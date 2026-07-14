@@ -26,6 +26,14 @@ memetakan HR bukan sebagai kumpulan fungsi, melainkan sebagai **satu disiplin il
 - **Glosarium & pencarian** — cari istilah apa pun (mis. "OKR") → kamera terbang ke node-nya.
 - **Model Ilmiah & Peta Jalan** — Model Tiga Dimensi HC + peta jalan HCBoK/HCOS/IHCMIS/PABoK.
 - **Unduh Poster (PNG)** — ekspor tampilan pohon untuk slide presentasi.
+- **Drill-down / Knowledge Explorer** — klik simpul mana pun untuk *terbang masuk* (zoom) ke bagian
+  itu; anak-simpulnya (ranting) merekah, dan **breadcrumb** (Pohon › Cabang › Learning › LMS)
+  memandu naik-turun antar tingkat pengetahuan.
+- **Node ensiklopedik (Reader)** — tiap simpul membuka panel konten kaya: Definisi, Mengapa penting,
+  Konsep kunci (dapat diklik untuk melompat), sudut **People Analytics**, badge referensi kerangka
+  (HCBoK · HCOS · HCAF · PABoK · IHCMIS), dan simpul terkait. Deep-link: `?node=Learning`.
+- **Musim (living framework)** — menu *Musim*: Semi (pertumbuhan) · Panas (kapabilitas) ·
+  Gugur (panen nilai) · Dingin (refleksi) — mengubah warna daun, tanah, langit, dan cahaya.
 - **Dwibahasa** — Indonesia / English (menu → English).
 - **Mode kiosk** — `?kiosk=1`: tur berjalan otomatis berulang (untuk layar lobby/townhall).
 - **Deep-link untuk mengajar** — `?lapisan=akar|batang|cabang|daun|buah|intelligence`.

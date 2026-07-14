@@ -6,6 +6,7 @@ import { OrbitControls } from '../vendor/OrbitControls.js';
 import { buildTree } from './tree.js';
 import {
   LAYERS, LAYER_ORDER, TOUR, QUIZ, RANTING, RANTING_AKAR, SCIENTIFIC, STRINGS, LAYER_NAMES,
+  REFS, getKnowledge,
 } from './content.js';
 
 // tunggu font siap agar label kanvas 3D memakai huruf yang benar
@@ -108,6 +109,7 @@ function applyScene(day) {
   }
   localStorage.setItem('hc-scene', day ? 'day' : 'night');
   tree.setDaytime(day);
+  applySeason(currentSeason); // pertahankan palet musim di atas basis siang/malam
 }
 
 // ---------- material per lapisan untuk efek dim ----------
@@ -123,12 +125,13 @@ const dimTarget = {}; const dimNow = {};
 for (const k of Object.keys(tree.groups)) { dimTarget[k] = 1; dimNow[k] = 1; }
 
 function setFocus(layerId) {
+  const valid = layerId && tree.groups[layerId] ? layerId : null; // matahari/tanah bukan grup layer
   for (const k of Object.keys(tree.groups)) {
-    dimTarget[k] = !layerId || k === layerId ? 1 : 0.13;
-    if (layerId && k === 'intelligence' && layerId !== 'intelligence') dimTarget[k] = 0.3;
+    dimTarget[k] = !valid || k === valid ? 1 : 0.13;
+    if (valid && k === 'intelligence' && valid !== 'intelligence') dimTarget[k] = 0.3;
   }
   for (const k of Object.keys(tree.labels)) {
-    const show = k === layerId;
+    const show = k === valid;
     for (const sp of tree.labels[k]) sp.userData.targetOpacity = show ? 1 : 0;
   }
 }
@@ -146,7 +149,7 @@ function flyTo(pos, target, dur = 1.9) {
 const ease = (x) => (x < 0.5 ? 4 * x ** 3 : 1 - Math.pow(-2 * x + 2, 3) / 2);
 
 const CAM_VIEWS = {
-  home: { pos: [38, 16, 52], target: [0, 12, 0] },
+  home: { pos: [23, 13, 33], target: [0, 12, 0] },
   akar: { pos: [26, -7, 30], target: [0, -5, 0] },
   batang: { pos: [16, 9, 21], target: [0, 8, 0] },
   cabang: { pos: [26, 22, 30], target: [0, 16, 0] },
@@ -162,7 +165,7 @@ const CAM_VIEWS = {
 // ============================================================
 const $ = (s) => document.querySelector(s);
 const panel = $('#panel');
-const nodeCard = $('#node-card');
+const reader = $('#reader');
 const tourCard = $('#tour-card');
 const chips = [...document.querySelectorAll('.chip[data-layer]')];
 
@@ -183,6 +186,8 @@ function applyStrings() {
   });
   $('#m-lang span').textContent = S().lang;
   if (typeof updateDayLabel === 'function') updateDayLabel();
+  if (typeof updateSeasonLabel === 'function') updateSeasonLabel();
+  if (typeof renderCrumbs === 'function') renderCrumbs();
   if (activeLayer) renderPanel(activeLayer);
   if (tourIndex >= 0) renderTour(tourIndex);
 }
@@ -215,10 +220,12 @@ function openLayer(id, { keepTour = false } = {}) {
   controls.autoRotate = false;
   const v = CAM_VIEWS[id];
   flyTo(v.pos, v.target);
-  hideNodeCard();
+  hideReader();
   renderPanel(id);
   panel.classList.add('open');
   document.body.classList.add('panel-open');
+  crumbs = [{ label: LAYER_NAMES[lang][id], kind: 'layer', id }];
+  renderCrumbs();
 }
 
 function closeLayer() {
@@ -227,10 +234,12 @@ function closeLayer() {
   setFocus(null);
   panel.classList.remove('open');
   document.body.classList.remove('panel-open');
-  hideNodeCard();
+  hideReader();
   tree.clearValuePath();
   controls.autoRotate = !reduceMotion && tourIndex < 0;
   flyTo(CAM_VIEWS.home.pos, CAM_VIEWS.home.target);
+  crumbs = [];
+  renderCrumbs();
 }
 
 chips.forEach((c) => c.addEventListener('click', () => {
@@ -243,14 +252,37 @@ $('#btn-home').addEventListener('click', () => { stopTour(); closeLayer(); });
 // ============================================================
 // kartu node
 // ============================================================
-function showNodeCard(data, x, y) {
-  nodeCard.querySelector('.nc-name').textContent = tt(data.name);
-  nodeCard.querySelector('.nc-detail').textContent = tt(data.detail);
-  nodeCard.style.setProperty('--accent', data.labelColor || '#d4a017');
-  const actions = nodeCard.querySelector('.nc-actions');
+const H4 = (t) => { const e = document.createElement('h4'); e.textContent = t; return e; };
+const P = (t, cls) => { const e = document.createElement('p'); if (cls) e.className = cls; e.textContent = t; return e; };
+
+// membangun konten kaya: KNOWLEDGE bespoke, atau fallback dari detail
+function knowledgeFor(data) {
+  const k = getKnowledge(data.name);
+  const key = k?.key || RANTING[data.name] || RANTING_AKAR[data.name] || null;
+  if (k) return { def: tt(k.def), why: tt(k.why), refs: k.refs || [], related: k.related || [], metric: tt(k.metric), key };
+  // fallback
+  const siblings = data.layer && LAYERS[data.layer]
+    ? LAYERS[data.layer].items.map((i) => i.name).filter((n) => n !== data.name).slice(0, 4)
+    : [];
+  const defaultRefs = data.layer === 'intelligence' ? ['PABoK', 'HCBoK'] : ['HCBoK'];
+  return {
+    def: tt(data.detail), why: '', refs: data.parent ? [] : defaultRefs,
+    related: data.parent ? [data.parent] : siblings, metric: '', key,
+  };
+}
+
+function openReader(data) {
+  const accent = data.labelColor || (LAYERS[data.layer]?.color) || '#d4a017';
+  reader.style.setProperty('--accent', accent);
+  $('#reader-tag').textContent = data.parent
+    ? `${LAYER_NAMES[lang][data.layer] || ''} · ${data.parent}`
+    : (LAYER_NAMES[lang][data.layer] || '');
+  $('#reader-title').textContent = tt(data.name);
+
+  // aksi
+  const actions = $('#reader-actions');
   actions.innerHTML = '';
-  // aksi: ranting (cabang → subdomain, akar → sub-ilmu)
-  if ((data.layer === 'cabang' || data.layer === 'akar') && tree.hasRanting(data.name)) {
+  if (!data.leaf && (data.layer === 'cabang' || data.layer === 'akar') && tree.hasRanting(data.name)) {
     const b = document.createElement('button');
     b.className = 'btn-gold sm';
     b.textContent = tree.isRantingOpen(data.name) ? S().rantingHide : S().ranting;
@@ -260,33 +292,85 @@ function showNodeCard(data, x, y) {
     });
     actions.appendChild(b);
   }
-  // aksi: jalur nilai
   if (data.layer === 'buah' && tree.isFruit(data.name)) {
     const b = document.createElement('button');
-    b.className = 'btn-gold sm';
+    b.className = 'btn-ghost sm';
     b.textContent = S().valuePath;
     b.addEventListener('click', () => {
       const info = tree.showValuePath(data.name);
       if (info) {
-        nodeCard.querySelector('.nc-detail').textContent =
-          `${S().valuePathOn} ${info.root} → Human Capital → ${info.branch} → ${info.fruit}`;
-        setFocus(null); // tampilkan seluruh pohon agar jalur terlihat
+        setFocus(null);
         flyTo(CAM_VIEWS.home.pos, [0, 12, 0], 1.6);
       }
     });
     actions.appendChild(b);
   }
-  nodeCard.classList.add('show');
-  const pad = 14;
-  const w = Math.min(340, innerWidth - pad * 2);
-  nodeCard.style.left = Math.min(Math.max(x - w / 2, pad), innerWidth - w - pad) + 'px';
-  nodeCard.style.top = Math.min(y + 18, innerHeight - 210) + 'px';
+
+  // tubuh
+  const k = knowledgeFor(data);
+  const body = $('#reader-body');
+  body.innerHTML = '';
+  if (k.def) { body.appendChild(H4(lang === 'id' ? 'Definisi' : 'Definition')); body.appendChild(P(k.def)); }
+  if (k.why) { body.appendChild(H4(lang === 'id' ? 'Mengapa penting' : 'Why it matters')); body.appendChild(P(k.why, 'muted')); }
+  if (k.key && k.key.length) {
+    body.appendChild(H4(lang === 'id' ? 'Konsep kunci' : 'Key concepts'));
+    const wrap = document.createElement('div'); wrap.className = 'r-chips r-key';
+    k.key.forEach((name) => {
+      const b = document.createElement('button');
+      b.textContent = name;
+      b.addEventListener('click', () => jumpToNode(name, data.name));
+      wrap.appendChild(b);
+    });
+    body.appendChild(wrap);
+  }
+  if (k.metric) {
+    body.appendChild(H4(lang === 'id' ? 'Sudut People Analytics' : 'People Analytics angle'));
+    body.appendChild(P(k.metric, 'metric'));
+  }
+  if (k.refs && k.refs.length) {
+    body.appendChild(H4(lang === 'id' ? 'Referensi kerangka' : 'Framework references'));
+    const wrap = document.createElement('div'); wrap.className = 'r-chips';
+    k.refs.forEach((r) => {
+      const span = document.createElement('span');
+      span.className = 'refbadge'; span.textContent = r;
+      if (REFS[r]) span.title = tt(REFS[r]);
+      wrap.appendChild(span);
+    });
+    body.appendChild(wrap);
+  }
+  if (k.related && k.related.length) {
+    body.appendChild(H4(lang === 'id' ? 'Terkait' : 'Related'));
+    const wrap = document.createElement('div'); wrap.className = 'r-chips';
+    k.related.forEach((name) => {
+      const b = document.createElement('button');
+      b.textContent = name;
+      b.addEventListener('click', () => jumpToNode(name));
+      wrap.appendChild(b);
+    });
+    body.appendChild(wrap);
+  }
+
+  body.scrollTop = 0;
+  reader.classList.add('open');
+  document.body.classList.add('reader-open');
 }
-function hideNodeCard() {
-  nodeCard.classList.remove('show');
+function hideReader() {
+  reader.classList.remove('open');
+  document.body.classList.remove('reader-open');
   if (hotMesh) { hotMesh.userData.hot = false; hotMesh = null; }
 }
-nodeCard.querySelector('.nc-close').addEventListener('click', () => { hideNodeCard(); tree.clearValuePath(); });
+// lompat ke simpul lain berdasar nama (dari konsep kunci / terkait)
+function jumpToNode(name, parentHint) {
+  // buka ranting induk bila perlu agar simpul anak ada
+  if (parentHint && tree.hasRanting(parentHint) && !tree.isRantingOpen(parentHint)) tree.toggleRanting(parentHint);
+  const attempt = () => {
+    const mesh = findNodeMesh(name, parentHint);
+    if (mesh) { drillIntoNode(mesh, innerWidth / 2, innerHeight * 0.28); return true; }
+    return false;
+  };
+  if (!attempt()) setTimeout(attempt, 260);
+}
+$('#reader-close').addEventListener('click', () => { hideReader(); tree.clearValuePath(); });
 
 const ray = new THREE.Raycaster();
 const ptr = new THREE.Vector2();
@@ -302,12 +386,8 @@ canvas.addEventListener('pointerup', (e) => {
   ray.setFromCamera(ptr, camera);
   const hits = ray.intersectObjects(tree.interactives, false);
   if (hits.length) {
-    const mesh = hits[0].object;
-    if (hotMesh) hotMesh.userData.hot = false;
-    hotMesh = mesh; mesh.userData.hot = true;
-    showNodeCard(mesh.userData.node, e.clientX, e.clientY);
-    if (!activeLayer && tourIndex < 0) setFocus(mesh.userData.node.layer);
-  } else hideNodeCard();
+    drillIntoNode(hits[0].object, e.clientX, e.clientY);
+  } else hideReader();
 });
 canvas.addEventListener('pointermove', (e) => {
   if (isMobile) return;
@@ -316,6 +396,100 @@ canvas.addEventListener('pointermove', (e) => {
   ray.setFromCamera(ptr, camera);
   canvas.style.cursor = ray.intersectObjects(tree.interactives, false).length ? 'pointer' : 'grab';
 });
+
+// ============================================================
+// DRILL-DOWN — menjelajah menembus pohon (breadcrumb + zoom)
+// ============================================================
+const crumbEl = $('#breadcrumb');
+const _wp = new THREE.Vector3();
+let crumbs = []; // {label, kind:'layer'|'node', id?, name?, parent?, leaf?}
+
+function frameWorldPos(wp, dist) {
+  const dir = camera.position.clone().sub(controls.target);
+  if (dir.lengthSq() < 0.04) dir.set(1, 0.4, 1);
+  dir.normalize();
+  const pos = wp.clone().add(dir.multiplyScalar(dist));
+  controls.autoRotate = false;
+  flyTo([pos.x, pos.y, pos.z], [wp.x, wp.y, wp.z], 1.5);
+}
+function findNodeMesh(name, parent) {
+  let loose = null;
+  for (const m of tree.interactives) {
+    const n = m.userData.node;
+    if (!n || n.name !== name) continue;
+    if (parent && n.parent === parent) return m;
+    if (!loose) loose = m;
+  }
+  return loose;
+}
+function renderCrumbs() {
+  crumbEl.innerHTML = '';
+  if (!crumbs.length) { crumbEl.classList.remove('show'); return; }
+  crumbEl.classList.add('show');
+  const home = document.createElement('button');
+  home.textContent = lang === 'id' ? 'Pohon' : 'Tree';
+  home.addEventListener('click', () => gotoCrumb(-1));
+  crumbEl.appendChild(home);
+  crumbs.forEach((c, i) => {
+    const sep = document.createElement('span'); sep.className = 'sep'; sep.textContent = '›';
+    crumbEl.appendChild(sep);
+    const b = document.createElement('button');
+    b.textContent = c.label;
+    if (i === crumbs.length - 1) b.classList.add('current');
+    else b.addEventListener('click', () => gotoCrumb(i));
+    crumbEl.appendChild(b);
+  });
+}
+function gotoCrumb(i) {
+  if (i < 0) { closeLayer(); return; }
+  const target = crumbs[i];
+  crumbs = crumbs.slice(0, i + 1);
+  hideReader(); tree.clearValuePath();
+  if (target.kind === 'layer') {
+    openLayer(target.id, { fromCrumb: true });
+  } else {
+    const mesh = findNodeMesh(target.name, target.parent);
+    if (mesh) {
+      if (mesh.userData.node.parent && !tree.isRantingOpen(mesh.userData.node.parent)) {
+        tree.toggleRanting(mesh.userData.node.parent);
+      }
+      frameWorldPos(mesh.getWorldPosition(_wp), target.leaf ? 8 : 14);
+      setFocus(mesh.userData.node.layer);
+      openReader(mesh.userData.node);
+    }
+  }
+  renderCrumbs();
+}
+function drillIntoNode(mesh, x, y) {
+  const data = mesh.userData.node;
+  if (hotMesh) hotMesh.userData.hot = false;
+  hotMesh = mesh; mesh.userData.hot = true;
+  // masuk mode jelajah: tutup panel lapisan agar breadcrumb & kartu terlihat
+  panel.classList.remove('open');
+  document.body.classList.remove('panel-open');
+  // buka anak (ranting) bila ada dan node ini bukan daun
+  const drillable = !data.leaf && (data.layer === 'cabang' || data.layer === 'akar') && tree.hasRanting(data.name);
+  if (drillable && !tree.isRantingOpen(data.name)) tree.toggleRanting(data.name);
+  frameWorldPos(mesh.getWorldPosition(_wp), drillable ? 14 : 8);
+  if (tourIndex < 0) setFocus(data.layer);
+  // breadcrumb
+  const arr = [];
+  if (tree.groups[data.layer]) {
+    arr.push({ label: LAYER_NAMES[lang][data.layer], kind: 'layer', id: data.layer });
+    if (data.parent) arr.push({ label: data.parent, kind: 'node', name: data.parent });
+    arr.push({ label: tt(data.name), kind: 'node', name: data.name, parent: data.parent, leaf: data.leaf });
+  } else {
+    // konsep tambahan (matahari/tanah)
+    arr.push({ label: tt(data.name), kind: 'node', name: data.name });
+  }
+  crumbs = arr;
+  renderCrumbs();
+  if (tree.groups[data.layer]) {
+    activeLayer = data.layer;
+    chips.forEach((c) => c.classList.toggle('active', c.dataset.layer === data.layer));
+  }
+  openReader(data);
+}
 
 // ============================================================
 // narasi suara
@@ -368,7 +542,7 @@ function startTour() {
   document.body.classList.remove('panel-open');
   activeLayer = null;
   chips.forEach((c) => c.classList.remove('active'));
-  hideNodeCard();
+  hideReader();
   tree.clearValuePath();
   controls.autoRotate = false;
   gotoTour(0);
@@ -441,6 +615,37 @@ $('#m-day').addEventListener('click', () => {
   closeMenu();
   applyScene(!isDay);
   updateDayLabel();
+});
+
+// ---------- musim (living framework) ----------
+const SEASON_SCENE = {
+  spring: { hemi: '#d4f0d0', ground: '#4f7a34', fog: '#dcecd2', sun: '#fff8e6' },
+  summer: { hemi: '#bfe0ff', ground: '#3f5f2c', fog: '#cfe0ee', sun: '#fff4e0' },
+  autumn: { hemi: '#ffe6c0', ground: '#6a5a2c', fog: '#ecdcc2', sun: '#ffdca0' },
+  winter: { hemi: '#e2ecff', ground: '#5f6f66', fog: '#e2ecf2', sun: '#eef4ff' },
+};
+const SEASON_ORDER = ['spring', 'summer', 'autumn', 'winter'];
+let currentSeason = localStorage.getItem('hc-season') || 'summer';
+function updateSeasonLabel() {
+  const key = 'season' + currentSeason[0].toUpperCase() + currentSeason.slice(1);
+  const el = $('#m-season-label');
+  if (el) el.textContent = `${S().season}: ${S()[key]}`;
+}
+function applySeason(s) {
+  currentSeason = s;
+  localStorage.setItem('hc-season', s);
+  tree.setSeason(s);
+  if (isDay) {
+    const sc = SEASON_SCENE[s];
+    hemi.color.set(sc.hemi); sun.color.set(sc.sun);
+    scene.fog.color.set(sc.fog); tree.setGround(sc.ground);
+  }
+  updateSeasonLabel();
+}
+$('#m-season').addEventListener('click', () => {
+  closeMenu();
+  const idx = SEASON_ORDER.indexOf(currentSeason);
+  applySeason(SEASON_ORDER[(idx + 1) % SEASON_ORDER.length]);
 });
 
 // ============================================================
@@ -602,7 +807,7 @@ function renderSearch(qs) {
         if (mesh) {
           if (hotMesh) hotMesh.userData.hot = false;
           hotMesh = mesh; mesh.userData.hot = true;
-          showNodeCard(mesh.userData.node, innerWidth / 2, innerHeight * 0.18);
+          openReader(mesh.userData.node);
         }
       }, e.parent ? 300 : 0);
     });
@@ -691,6 +896,7 @@ addEventListener('keydown', (e) => {
     if (searchEl.classList.contains('open')) { searchEl.classList.remove('open'); return; }
     if (modelEl.classList.contains('open')) { modelEl.classList.remove('open'); return; }
     if (simCard.classList.contains('open')) { simCard.classList.remove('open'); return; }
+    if (reader.classList.contains('open')) { hideReader(); tree.clearValuePath(); return; }
     if (tourIndex >= 0) { stopTour(); closeLayer(); return; }
     closeLayer();
   }
@@ -720,8 +926,18 @@ if (KIOSK) {
   // langsung tumbuh menuju tampilan home
   growTree(7);
 }
+// deep-link opsional untuk mengajar
+if (params.get('season') && SEASON_ORDER.includes(params.get('season'))) currentSeason = params.get('season');
+if (params.has('malam')) isDay = false;
+if (params.has('siang')) isDay = true;
 applyScene(isDay);
 applyStrings();
+
+// deep-link ke simpul tertentu (buka reader) — mis. ?node=Learning
+if (params.get('node')) {
+  const nm = findNodeMesh(params.get('node'));
+  if (nm) setTimeout(() => drillIntoNode(nm, innerWidth / 2, innerHeight * 0.3), reduceMotion ? 50 : 800);
+}
 
 // ============================================================
 // loop render

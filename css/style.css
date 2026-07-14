@@ -201,6 +201,54 @@ button:disabled { opacity: 0.35; cursor: default; }
 #node-card .nc-detail { margin-top: 7px; font-size: 13.5px; line-height: 1.55; color: var(--cream); }
 #node-card .icon-btn { top: 8px; right: 8px; width: 28px; height: 28px; }
 
+/* ---------- reader: konten kaya per simpul ---------- */
+#reader {
+  position: fixed; z-index: 44;
+  top: 0; right: 0; bottom: 0; width: min(440px, 94vw);
+  padding: calc(84px + env(safe-area-inset-top)) 30px 30px;
+  background: linear-gradient(200deg, rgba(9, 27, 17, 0.95), rgba(4, 15, 10, 0.97));
+  border-left: 1px solid var(--accent, var(--border));
+  backdrop-filter: blur(18px);
+  transform: translateX(103%);
+  transition: transform 0.5s var(--ease);
+  overflow-y: auto; overscroll-behavior: contain;
+}
+#reader.open { transform: none; }
+#reader-close { left: auto; right: 16px; }
+#reader h2 {
+  font-family: var(--serif); font-weight: 600;
+  font-size: clamp(23px, 3vw, 29px); line-height: 1.15; margin: 9px 0 14px;
+  color: var(--accent, var(--cream));
+}
+#reader-tag { color: var(--accent, var(--gold)); }
+#reader-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+#reader-actions:empty { display: none; }
+#reader-actions button { font-size: 12px; padding: 8px 14px; }
+#reader-body h4 {
+  font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--gold); font-weight: 700; margin: 20px 0 8px;
+}
+#reader-body p { font-size: 14.5px; line-height: 1.65; color: var(--cream); }
+#reader-body p.muted { color: var(--muted); font-size: 13.5px; }
+#reader-body .metric {
+  font-size: 13px; line-height: 1.6; color: #bfe6f5;
+  border-left: 2px solid #4cc9f0; padding: 4px 0 4px 13px; margin-top: 6px;
+}
+.r-chips { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 4px; }
+.r-chips button, .r-chips .refbadge {
+  font-size: 12px; padding: 7px 12px; border-radius: 999px;
+  border: 1px solid rgba(245, 241, 230, 0.16); background: rgba(245, 241, 230, 0.05);
+  color: var(--cream); transition: border-color 0.15s, background 0.15s;
+}
+.r-chips button:hover { border-color: var(--gold); background: rgba(212, 160, 23, 0.12); }
+.r-chips .refbadge { color: var(--gold-soft); border-color: rgba(212, 160, 23, 0.4); cursor: help; }
+.r-key button::before { content: '↳ '; color: var(--gold); }
+body.reader-open #hint { opacity: 0; }
+
+@media (max-width: 768px) {
+  #reader { width: 100vw; border-left: none; }
+}
+
 /* ---------- kartu tur ---------- */
 #tour-card {
   position: fixed; z-index: 42;
@@ -260,6 +308,29 @@ body.panel-open #hint { opacity: 0; }
 }
 #menu-drop button:hover { background: rgba(212, 160, 23, 0.14); }
 #menu-drop svg { flex: none; opacity: 0.8; }
+
+/* ---------- breadcrumb drill-down ---------- */
+#breadcrumb {
+  position: fixed; z-index: 29;
+  top: calc(64px + env(safe-area-inset-top)); left: 20px;
+  display: none; align-items: center; gap: 5px; flex-wrap: wrap;
+  max-width: min(60vw, 620px);
+}
+#breadcrumb.show { display: flex; }
+#breadcrumb button {
+  background: var(--surface); color: var(--cream);
+  border: 1px solid rgba(245, 241, 230, 0.16);
+  font-size: 12px; font-weight: 600; padding: 6px 12px;
+  border-radius: 999px; backdrop-filter: blur(12px);
+  transition: border-color 0.15s, background 0.15s;
+  max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+#breadcrumb button:hover { border-color: var(--gold); }
+#breadcrumb button.current {
+  border-color: var(--gold); background: rgba(212, 160, 23, 0.16); color: var(--gold-soft);
+  cursor: default;
+}
+#breadcrumb .sep { color: var(--muted); font-size: 13px; }
 
 /* ---------- teks pertumbuhan ---------- */
 #grow-note {
@@ -412,6 +483,8 @@ body.panel-open #hint { opacity: 0; }
   .chip { flex: none; font-size: 12px; padding: 9px 13px; }
   .chip:hover { transform: none; }
   #panel { width: 100vw; border-right: none; }
+  #breadcrumb { top: calc(58px + env(safe-area-inset-top)); left: 12px; max-width: calc(100vw - 24px); }
+  #breadcrumb button { max-width: 130px; font-size: 11px; padding: 5px 10px; }
   #tour-card { bottom: calc(96px + env(safe-area-inset-bottom)); padding: 18px 20px 16px; }
   #hint { display: none; }
   .m-grid { grid-template-columns: 1fr; }
