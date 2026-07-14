@@ -5,7 +5,7 @@ import * as THREE from 'three';
 import { OrbitControls } from '../vendor/OrbitControls.js';
 import { buildTree } from './tree.js';
 import {
-  LAYERS, LAYER_ORDER, TOUR, QUIZ, RANTING, SCIENTIFIC, STRINGS, LAYER_NAMES,
+  LAYERS, LAYER_ORDER, TOUR, QUIZ, RANTING, RANTING_AKAR, SCIENTIFIC, STRINGS, LAYER_NAMES,
 } from './content.js';
 
 // tunggu font siap agar label kanvas 3D memakai huruf yang benar
@@ -151,8 +151,10 @@ const CAM_VIEWS = {
   batang: { pos: [16, 9, 21], target: [0, 8, 0] },
   cabang: { pos: [26, 22, 30], target: [0, 16, 0] },
   daun: { pos: [24, 27, 30], target: [0, 23, 0] },
-  buah: { pos: [21, 16, 27], target: [0, 18.5, 0] },
+  buah: { pos: [21, 16, 27], target: [0, 20, 0] },
   intelligence: { pos: [34, 10, 40], target: [0, 11, 0] },
+  matahari: { pos: [22, 34, 46], target: [-9, 34, -7] },
+  tanah: { pos: [20, 7, 30], target: [0, 1.5, 0] },
 };
 
 // ============================================================
@@ -242,13 +244,13 @@ $('#btn-home').addEventListener('click', () => { stopTour(); closeLayer(); });
 // kartu node
 // ============================================================
 function showNodeCard(data, x, y) {
-  nodeCard.querySelector('.nc-name').textContent = data.name;
+  nodeCard.querySelector('.nc-name').textContent = tt(data.name);
   nodeCard.querySelector('.nc-detail').textContent = tt(data.detail);
   nodeCard.style.setProperty('--accent', data.labelColor || '#d4a017');
   const actions = nodeCard.querySelector('.nc-actions');
   actions.innerHTML = '';
-  // aksi: ranting
-  if (data.layer === 'cabang' && tree.hasRanting(data.name)) {
+  // aksi: ranting (cabang → subdomain, akar → sub-ilmu)
+  if ((data.layer === 'cabang' || data.layer === 'akar') && tree.hasRanting(data.name)) {
     const b = document.createElement('button');
     b.className = 'btn-gold sm';
     b.textContent = tree.isRantingOpen(data.name) ? S().rantingHide : S().ranting;
@@ -355,10 +357,11 @@ function renderTour(i) {
 function gotoTour(i) {
   tourIndex = i;
   renderTour(i);
-  setFocus(TOUR[i].layer);
-  const v = TOUR[i].layer ? CAM_VIEWS[TOUR[i].layer] : CAM_VIEWS.home;
+  const step = TOUR[i];
+  setFocus(step.layer);
+  const v = CAM_VIEWS[step.view || step.layer || 'home'] || CAM_VIEWS.home;
   flyTo(v.pos, v.target, 2.4);
-  if (speakOn) speak(`${tt(TOUR[i].title)}. ${tt(TOUR[i].text)}`);
+  if (speakOn) speak(`${tt(step.title)}. ${tt(step.text)}`);
 }
 function startTour() {
   panel.classList.remove('open');
@@ -555,6 +558,9 @@ for (const lid of Object.keys(LAYERS)) {
 }
 for (const [parent, subs] of Object.entries(RANTING)) {
   for (const s of subs) searchIndex.push({ name: s, layer: 'cabang', parent });
+}
+for (const [parent, subs] of Object.entries(RANTING_AKAR)) {
+  for (const s of subs) searchIndex.push({ name: s, layer: 'akar', parent });
 }
 
 function openSearch() {

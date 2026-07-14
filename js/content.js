@@ -172,6 +172,45 @@ export const RANTING = {
   'Digital Human Capital': ['HRIS', 'Employee Self-Service', 'HR Automation', 'Analytics Platform', 'AI Assistant'],
 };
 
+// ---- Sub-ilmu tiap rumpun akar (akar besar bercabang) ---------
+export const RANTING_AKAR = {
+  'Behavioral Sciences': ['Psychology', 'Organizational Behavior', 'Motivation Theory', 'Learning Theory'],
+  'Management & Organization Sciences': ['Organizational Theory', 'Strategic Management', 'Leadership Studies', 'Change Management'],
+  'Quantitative Sciences': ['Statistics', 'Econometrics', 'Operations Research', 'Economics'],
+  'Computational & Data Sciences': ['Databases', 'Machine Learning', 'Artificial Intelligence', 'Knowledge Graphs'],
+  'Law & Ethics': ['Employment Law', 'Industrial Relations', 'Data Privacy', 'Ethics'],
+};
+
+// ---- Elemen konseptual tambahan: matahari, tanah, enterprise ---
+export const EXTRAS = {
+  matahari: {
+    color: '#ffcf4d',
+    name: { id: 'Matahari — Arah & Energi', en: 'The Sun — Direction & Energy' },
+    detail: {
+      id: 'Visi · Misi · Strategi Bisnis · Organizational Purpose. Tanpa strategi, pohon tidak tahu ke mana harus tumbuh — matahari memberi arah dan energi bagi seluruh pohon.',
+      en: 'Vision · Mission · Business Strategy · Organizational Purpose. Without strategy the tree has no direction — the sun gives direction and energy to the whole tree.',
+    },
+    items: ['Vision', 'Mission', 'Business Strategy', 'Organizational Purpose'],
+  },
+  tanah: {
+    color: '#9c7a4d',
+    name: { id: 'Tanah — Konteks', en: 'The Soil — Context' },
+    detail: {
+      id: 'Society · Culture · Technology · Economy · Regulation · Demography · Environment. Seluruh ilmu Human Capital tumbuh dari konteks ini — akar menyerap makna dari tanahnya.',
+      en: 'Society · Culture · Technology · Economy · Regulation · Demography · Environment. All Human Capital science grows from this context — the roots draw meaning from their soil.',
+    },
+    items: ['Society', 'Culture', 'Technology', 'Economy', 'Regulation', 'Demography', 'Environment'],
+  },
+  enterprise: {
+    color: '#ffd75e',
+    name: { id: 'Enterprise Value', en: 'Enterprise Value' },
+    detail: {
+      id: 'Buah tertinggi. Business Outcomes — Productivity, Growth, Competitive Advantage — bermuara pada Enterprise Value: nilai perusahaan secara utuh. Inilah hubungan eksplisit Human Capital dengan strategi korporasi.',
+      en: 'The highest fruit. Business outcomes — Productivity, Growth, Competitive Advantage — culminate in Enterprise Value: the whole worth of the enterprise. This is the explicit link between Human Capital and corporate strategy.',
+    },
+  },
+};
+
 // ---- Tur berpemandu -----------------------------------------
 export const TOUR = [
   {
@@ -181,6 +220,15 @@ export const TOUR = [
     text: {
       id: 'Bayangkan HR bukan sebagai kumpulan fungsi, melainkan satu organisme hidup. Berakar pada ilmu dasar, diperkuat manajemen yang kokoh, bercabang pada fungsi-fungsi HR, berdaun pada outcome manusia, dan berbuah pada nilai bisnis. Nilai mengalir ke atas — dari akar menuju buah.',
       en: 'Imagine HR not as a bundle of functions but as one living organism. Rooted in foundation sciences, strengthened by solid management, branching into HR functions, leafing into human outcomes, and bearing the fruit of business value. Value flows upward — from roots to fruit.',
+    },
+  },
+  {
+    layer: null, view: 'tanah',
+    tag: { id: 'TANAH · KONTEKS', en: 'SOIL · CONTEXT' },
+    title: { id: 'Tanah — Tempat Akar Berpijak', en: 'Soil — Where the Roots Take Hold' },
+    text: {
+      id: 'Sebelum akar, ada tanahnya: Society, Culture, Technology, Economy, Regulation, Demography, dan Environment. Seluruh ilmu Human Capital tumbuh dari konteks ini.',
+      en: 'Before the roots, there is the soil: Society, Culture, Technology, Economy, Regulation, Demography and Environment. All Human Capital science grows from this context.',
     },
   },
   {
@@ -235,6 +283,15 @@ export const TOUR = [
     text: {
       id: 'Perhatikan partikel cahaya yang mengalir dari akar hingga buah — itulah People Analytics, AI & Data. Bukan cabang, bukan akar, melainkan sistem peredaran kecerdasan: Data → Insight → Decision. Inilah fondasi People Analytics Body of Knowledge (PABoK).',
       en: 'Watch the particles of light flowing from roots to fruit — that is People Analytics, AI & Data. Not a branch, not a root, but a circulatory system of intelligence: Data → Insight → Decision. This is the foundation of the People Analytics Body of Knowledge (PABoK).',
+    },
+  },
+  {
+    layer: null, view: 'matahari',
+    tag: { id: 'MATAHARI · ARAH & ENERGI', en: 'THE SUN · DIRECTION & ENERGY' },
+    title: { id: 'Matahari — Yang Memberi Pohon Arah', en: 'The Sun — What Gives the Tree Direction' },
+    text: {
+      id: 'Di atas segalanya ada matahari: Visi, Misi, Strategi Bisnis, dan Organizational Purpose. Tanpa strategi, pohon tidak tahu ke mana harus tumbuh. Dari sinilah seluruh energi pertumbuhan berasal.',
+      en: 'Above everything is the sun: Vision, Mission, Business Strategy and Organizational Purpose. Without strategy the tree has no direction. This is where all the energy for growth comes from.',
     },
   },
 ];

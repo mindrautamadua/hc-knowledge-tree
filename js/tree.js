@@ -2,7 +2,7 @@
 // tree.js — membangun Pohon Ilmu Human Capital secara prosedural
 // ============================================================
 import * as THREE from 'three';
-import { LAYERS, RANTING } from './content.js';
+import { LAYERS, RANTING, RANTING_AKAR, EXTRAS } from './content.js';
 
 // ---------- tekstur util ----------
 function glowTexture(inner = 'rgba(255,255,255,1)', outer = 'rgba(255,255,255,0)') {
@@ -239,6 +239,39 @@ export function buildTree(quality = 'high') {
     return g;
   };
 
+  // node konsep tambahan (matahari, tanah, enterprise) — label selalu tampak
+  const extrasGroup = new THREE.Group();
+  root.add(extrasGroup);
+  const addExtraNode = (pos, color, size, data, labelYOff = 1.2) => {
+    const g = new THREE.Group();
+    g.position.copy(pos);
+    const core = new THREE.Mesh(
+      new THREE.SphereGeometry(size, 20, 20),
+      new THREE.MeshStandardMaterial({ color, emissive: color, emissiveIntensity: 1.5, roughness: 0.35 })
+    );
+    core.userData = { node: data };
+    interactives.push(core);
+    const halo = new THREE.Sprite(new THREE.SpriteMaterial({
+      map: softGlow, color, transparent: true, opacity: 0.5,
+      blending: THREE.AdditiveBlending, depthWrite: false,
+    }));
+    halo.scale.setScalar(size * 6);
+    const nameStr = typeof data.name === 'string' ? data.name : (data.name.id || data.name.en || '');
+    const lb = labelSprite(nameStr, data.labelColor || '#ffcf4d', { scale: data.labelScale || 0.9 });
+    lb.position.y = size + labelYOff;
+    lb.material.opacity = 0.92;
+    const ph = Math.random() * Math.PI * 2;
+    anim.push((t) => {
+      halo.material.opacity = 0.34 + Math.sin(t * 2 + ph) * 0.14;
+      core.material.emissiveIntensity = 1.4 + Math.sin(t * 2 + ph) * 0.3 + (core.userData.hot ? 1.4 : 0);
+      halo.scale.setScalar(size * (5.6 + (core.userData.hot ? 3 : 0)) * (1 + Math.sin(t * 2 + ph) * 0.1));
+      lb.material.opacity = 0.92;
+    });
+    g.add(core, halo, lb);
+    extrasGroup.add(g);
+    return { group: g, core };
+  };
+
   // ============ TANAH ============
   const groundMat = new THREE.MeshStandardMaterial({
     color: 0x0d1f14, roughness: 1, transparent: true, opacity: 0.62,
@@ -259,6 +292,23 @@ export function buildTree(quality = 'high') {
   rim.position.y = 0.03;
   root.add(rim);
   anim.push((t) => { rim.material.opacity = 0.22 + Math.sin(t * 0.8) * 0.12; });
+
+  // 7 penanda konteks di tanah (Society, Culture, dst)
+  const soilMat = new THREE.MeshStandardMaterial({ color: 0x6b5334, roughness: 1 });
+  const soilTerms = EXTRAS.tanah.items;
+  for (let i = 0; i < soilTerms.length; i++) {
+    const a = (i / soilTerms.length) * Math.PI * 2 + 0.2;
+    const r = 8.5 + (i % 2) * 1.4;
+    const st = new THREE.Mesh(new THREE.DodecahedronGeometry(0.5 + (i % 3) * 0.14, 0), soilMat);
+    st.position.set(Math.cos(a) * r, 0.15, Math.sin(a) * r);
+    st.rotation.set(Math.random(), Math.random(), Math.random());
+    st.scale.y = 0.5;
+    root.add(st);
+  }
+  // node "Tanah — Konteks"
+  addExtraNode(new THREE.Vector3(0, 0.9, 13.5), new THREE.Color('#b8925a'), 0.45, {
+    layer: 'tanah', name: EXTRAS.tanah.name, detail: EXTRAS.tanah.detail, labelColor: '#c9a878', labelScale: 0.85,
+  }, 1.0);
 
   // ============ AKAR (5 ilmu dasar) ============
   const bark = barkTexture();
@@ -352,9 +402,9 @@ export function buildTree(quality = 'high') {
   });
   for (const b of bands) b.mesh.userData.isHalo = true;
 
-  // node inti batang (informasi disiplin)
-  addNode('batang', new THREE.Vector3(0, 8.2, 2.6), new THREE.Color('#e8c46a'), 0.5, {
-    layer: 'batang', name: 'Human Capital — Disiplin Ilmu',
+  // node inti batang — ditegaskan sebagai DISIPLIN, bukan manajemen
+  addNode('batang', new THREE.Vector3(0, 8.6, 2.6), new THREE.Color('#e8c46a'), 0.5, {
+    layer: 'batang', name: 'Human Capital · The Discipline',
     detail: LAYERS.batang.items[0].detail, labelColor: '#e8c46a', labelScale: 1.1,
   }, 1.2);
 
@@ -513,6 +563,22 @@ export function buildTree(quality = 'high') {
     fruitGroups.push({ group: g, name: buahItems[i].name, pos: p.clone(), stalk });
   }
 
+  // Enterprise Value — buah tertinggi di puncak mahkota (dua lapis nilai)
+  const apexPos = new THREE.Vector3(0, TRUNK_H + 6.5, 0);
+  addNode('buah', apexPos, new THREE.Color('#ffd75e'), 0.85, {
+    layer: 'buah', name: 'Enterprise Value',
+    detail: EXTRAS.enterprise.detail, labelColor: '#ffe08a', labelScale: 1.05,
+  }, 1.5);
+  // benang emas: outcome bisnis bermuara ke Enterprise Value
+  const threadMat = new THREE.LineBasicMaterial({
+    color: 0xffd75e, transparent: true, opacity: 0.32,
+    blending: THREE.AdditiveBlending, depthWrite: false,
+  });
+  for (const f of fruitGroups) {
+    const geo = new THREE.BufferGeometry().setFromPoints([f.pos.clone(), apexPos.clone()]);
+    groups.buah.add(new THREE.Line(geo, threadMat));
+  }
+
   // ============ INTELLIGENCE LAYER (aliran partikel) ============
   const P_N = quality === 'high' ? 1400 : 600;
   const SAMPLES = 160;
@@ -625,6 +691,47 @@ export function buildTree(quality = 'high') {
   }));
   root.add(stars);
 
+  // ============ MATAHARI (Visi · Misi · Strategi · Purpose) ============
+  const sunPos = new THREE.Vector3(-26, 46, -20);
+  const sunCore = new THREE.Mesh(
+    new THREE.SphereGeometry(3.4, 32, 32),
+    new THREE.MeshBasicMaterial({ color: 0xffe08a })
+  );
+  sunCore.position.copy(sunPos);
+  root.add(sunCore);
+  // korona berlapis
+  const sunGlow = new THREE.Sprite(new THREE.SpriteMaterial({
+    map: softGlow, color: 0xffdf7a, transparent: true, opacity: 0.9,
+    blending: THREE.AdditiveBlending, depthWrite: false,
+  }));
+  sunGlow.scale.setScalar(24);
+  sunGlow.position.copy(sunPos);
+  root.add(sunGlow);
+  const sunGlow2 = new THREE.Sprite(new THREE.SpriteMaterial({
+    map: softGlow, color: 0xffcf4d, transparent: true, opacity: 0.5,
+    blending: THREE.AdditiveBlending, depthWrite: false,
+  }));
+  sunGlow2.scale.setScalar(46);
+  sunGlow2.position.copy(sunPos);
+  root.add(sunGlow2);
+  // node interaktif matahari
+  const sunNode = addExtraNode(sunPos.clone().add(new THREE.Vector3(0, -4.6, 0)), new THREE.Color('#ffcf4d'), 0.7, {
+    layer: 'matahari', name: EXTRAS.matahari.name, detail: EXTRAS.matahari.detail,
+    labelColor: '#ffe08a', labelScale: 1.0,
+  }, 1.4);
+  let sunBright = 1;
+  anim.push((t) => {
+    const p = 1 + Math.sin(t * 1.1) * 0.06;
+    sunGlow.scale.setScalar(24 * p);
+    sunGlow2.scale.setScalar(46 * p);
+    sunGlow.material.opacity = (0.8 + Math.sin(t * 1.1) * 0.12) * sunBright;
+    sunGlow2.material.opacity = 0.5 * sunBright;
+  });
+  const setSunBright = (day) => {
+    sunBright = day ? 1 : 0.5;
+    sunCore.material.color.set(day ? '#ffe08a' : '#cfdcff');
+  };
+
   // ============================================================
   // PERTUMBUHAN — pohon tumbuh dari akar ke buah
   // ============================================================
@@ -678,48 +785,59 @@ export function buildTree(quality = 'high') {
   // ============================================================
   const rantingGroups = new Map(); // nama domain -> group
   function toggleRanting(domainName) {
-    const idx = cabItems.findIndex((c) => c.name === domainName);
-    if (idx < 0) return false;
+    const cabIdx = cabItems.findIndex((c) => c.name === domainName);
+    const akarIdx = akarItems.findIndex((a) => a.name === domainName);
+    const isAkar = akarIdx >= 0;
+    if (cabIdx < 0 && !isAkar) return false;
     let rg = rantingGroups.get(domainName);
     if (!rg) {
-      const subs = RANTING[domainName] || [];
+      const subs = isAkar ? (RANTING_AKAR[domainName] || []) : (RANTING[domainName] || []);
       if (!subs.length) return false;
+      const anchor = isAkar ? rootTips[akarIdx].tip : branchEnds[cabIdx].end;
+      const parentGroup = isAkar ? groups.akar : groups.cabang;
+      const twigColor = isAkar ? 0xe0b483 : 0xcfe8a0;
+      const twigHex = isAkar ? '#e0b483' : '#cfe8a0';
+      const vSign = isAkar ? -1 : 1;   // akar menjulur turun (makin dalam)
+      const tubeR = isAkar ? 0.12 : 0.07;
+      const reach = isAkar ? 3.4 : 2.6;
       rg = new THREE.Group();
       rg.userData.openT = 0;
       rg.userData.open = false;
-      const end = branchEnds[idx].end;
-      rg.position.copy(end); // pivot di ujung cabang — semua anak relatif terhadap titik ini
-      const outward = end.clone().setY(0).normalize();
+      rg.position.copy(anchor); // pivot di ujung — anak relatif terhadap titik ini
+      const outward = anchor.clone().setY(0).normalize();
       const ZERO = new THREE.Vector3(0, 0, 0);
       for (let s = 0; s < subs.length; s++) {
         const a = (s / subs.length) * Math.PI * 2;
         const dir = new THREE.Vector3(
-          outward.x * 1.6 + Math.cos(a) * 1.1,
-          0.7 + Math.sin(a * 1.7) * 0.9,
-          outward.z * 1.6 + Math.sin(a) * 1.1
+          outward.x * 1.5 + Math.cos(a) * 1.1,
+          vSign * (0.55 + Math.abs(Math.sin(a * 1.7)) * 0.9),
+          outward.z * 1.5 + Math.sin(a) * 1.1
         ).normalize();
-        const tip = dir.multiplyScalar(2.6 + (s % 2) * 0.9); // relatif
+        const tip = dir.multiplyScalar(reach + (s % 2) * 0.9); // relatif
         const curve = new THREE.CatmullRomCurve3([
           ZERO.clone(),
-          tip.clone().multiplyScalar(0.5).add(new THREE.Vector3(0, 0.4, 0)),
+          tip.clone().multiplyScalar(0.5).add(new THREE.Vector3(0, vSign * 0.4, 0)),
           tip.clone(),
         ]);
-        rg.add(new THREE.Mesh(new THREE.TubeGeometry(curve, 10, 0.07, 5), rachisMat));
+        rg.add(new THREE.Mesh(new THREE.TubeGeometry(curve, 10, tubeR, 5), isAkar ? rootMat : rachisMat));
         const nodeG = new THREE.Group();
         nodeG.position.copy(tip);
         const core = new THREE.Mesh(
           new THREE.SphereGeometry(0.22, 14, 14),
-          new THREE.MeshStandardMaterial({ color: 0xcfe8a0, emissive: 0xcfe8a0, emissiveIntensity: 1.4, roughness: 0.4 })
+          new THREE.MeshStandardMaterial({ color: twigColor, emissive: twigColor, emissiveIntensity: 1.4, roughness: 0.4 })
         );
-        core.userData = { node: { layer: 'cabang', name: subs[s], detail: { id: `Ranting dari cabang ${domainName}.`, en: `A twig of the ${domainName} branch.` }, labelColor: '#cfe8a0' } };
+        const detail = isAkar
+          ? { id: `Sub-ilmu dari rumpun ${domainName}.`, en: `A sub-science of ${domainName}.` }
+          : { id: `Ranting dari cabang ${domainName}.`, en: `A twig of the ${domainName} branch.` };
+        core.userData = { node: { layer: isAkar ? 'akar' : 'cabang', name: subs[s], detail, labelColor: twigHex } };
         interactives.push(core);
-        const lb = labelSprite(subs[s], '#cfe8a0', { scale: 0.62 });
+        const lb = labelSprite(subs[s], twigHex, { scale: 0.62 });
         lb.position.y = 0.55;
         lb.userData.isRantingLabel = true;
         nodeG.add(core, lb);
         rg.add(nodeG);
       }
-      groups.cabang.add(rg);
+      parentGroup.add(rg);
       rantingGroups.set(domainName, rg);
       anim.push((t, dt) => {
         const target = rg.userData.open ? 1 : 0;
@@ -796,6 +914,7 @@ export function buildTree(quality = 'high') {
   function setDaytime(day) {
     stars.visible = !day;
     ff.visible = !day;                 // kunang-kunang hanya malam
+    setSunBright(day);
     if (day) {
       ground.material.color.set('#3f5f2c'); ground.material.opacity = 0.5;
       rim.material.opacity = 0.15;
@@ -811,7 +930,7 @@ export function buildTree(quality = 'high') {
     root, groups, labels, interactives, anim,
     setGrowth, setHealth, toggleRanting, isRantingOpen,
     showValuePath, clearValuePath, setDaytime,
-    hasRanting: (name) => !!RANTING[name],
+    hasRanting: (name) => !!RANTING[name] || !!RANTING_AKAR[name],
     isFruit: (name) => fruitGroups.some((f) => f.name === name),
   };
 }
