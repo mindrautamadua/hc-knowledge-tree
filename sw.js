@@ -2,7 +2,7 @@
 // Strategi: network-first untuk file inti (HTML/JS/CSS) agar pembaruan
 // langsung terlihat saat online; cache-first untuk aset berat (vendor,
 // font, ikon). Offline tetap berjalan penuh dari cache.
-const CACHE = 'pohon-ilmu-hc-v7';
+const CACHE = 'pohon-ilmu-hc-v8';
 const ASSETS = [
   './',
   './index.html',

@@ -701,28 +701,24 @@ addEventListener('keydown', (e) => {
 });
 
 // ============================================================
-// intro & mode awal
+// mode awal — langsung ke home dengan animasi pohon tumbuh
 // ============================================================
-$('#btn-enter').addEventListener('click', () => {
-  $('#intro').classList.add('gone');
-  setTimeout(() => $('#intro')?.remove(), 1400);
-  growTree(7);
-});
 camera.position.set(10, -10, 22);
 controls.target.set(0, 6, 0);
+const lp = params.get('lapisan');
 
-if (params.has('mulai') || KIOSK) {
-  $('#intro')?.remove();
+if (KIOSK) {
   camera.position.set(...CAM_VIEWS.home.pos);
   controls.target.set(...CAM_VIEWS.home.target);
-  if (KIOSK) { document.body.classList.add('kiosk'); startTour(); }
-}
-{
-  const lp = params.get('lapisan');
-  if (lp && LAYERS[lp]) {
-    $('#intro')?.remove();
-    openLayer(lp);
-  }
+  document.body.classList.add('kiosk');
+  startTour();
+} else if (lp && LAYERS[lp]) {
+  camera.position.set(...CAM_VIEWS.home.pos);
+  controls.target.set(...CAM_VIEWS.home.target);
+  openLayer(lp);
+} else {
+  // langsung tumbuh menuju tampilan home
+  growTree(7);
 }
 applyScene(isDay);
 applyStrings();
