@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Pohon Ilmu Human Capital — The Knowledge Tree</title>
+  <meta name="description" content="Peta interaktif 3D: Human Capital sebagai satu disiplin ilmu — dari akar (ilmu dasar) hingga buah (nilai bisnis)." />
+  <meta name="theme-color" content="#04120b" />
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="icon" href="./icons/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="./icons/icon-192.png" />
+  <link rel="stylesheet" href="./css/style.css" />
+  <script type="importmap">
+    { "imports": { "three": "./vendor/three.module.js" } }
+  </script>
+</head>
+<body>
+  <canvas id="scene" aria-label="Visualisasi 3D Pohon Ilmu Human Capital"></canvas>
+
+  <!-- ======= INTRO ======= -->
+  <div id="intro">
+    <div class="intro-inner">
+      <p class="eyebrow">Kerangka Pengetahuan Human Capital</p>
+      <h1>Pohon Ilmu<br />Human Capital</h1>
+      <p class="italic">The Human Capital Knowledge Tree</p>
+      <p class="lede">
+        Memetakan HR bukan sebagai kumpulan fungsi, melainkan sebagai satu disiplin ilmu —
+        dari akar (ilmu dasar) hingga buah (nilai bisnis) — sebagai fondasi
+        People Analytics Body of Knowledge (PABoK).
+      </p>
+      <button id="btn-enter" class="btn-gold" data-s="enter">
+        Masuk ke Hutan Pengetahuan
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </button>
+      <p class="credit">Divisi Operasional SDM</p>
+    </div>
+  </div>
+
+  <!-- ======= TEKS PERTUMBUHAN ======= -->
+  <p id="grow-note" class="eyebrow" data-s="growing">Pohon sedang tumbuh…</p>
+
+  <!-- ======= HEADER ======= -->
+  <header id="topbar">
+    <div class="brand">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <circle cx="12" cy="8" r="4.2" fill="#d4a017"/>
+        <circle cx="7.2" cy="10.5" r="3.4" fill="#5c8a3c"/>
+        <circle cx="16.8" cy="10.5" r="3.4" fill="#7fb069"/>
+        <rect x="11" y="13" width="2" height="7" rx="1" fill="#8a5a33"/>
+        <path d="M12 20l-3 2.6M12 20l3 2.6" stroke="#8a5a33" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
+      <div>
+        <strong>Pohon Ilmu Human Capital</strong>
+        <span>The Knowledge Tree · Divisi Operasional SDM</span>
+      </div>
+    </div>
+    <div class="top-actions">
+      <button id="btn-search" class="btn-ghost sm icon-only" aria-label="Cari istilah">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      </button>
+      <button id="btn-tour" class="btn-gold sm">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>
+        <span data-s="tour">Mulai Penjelajahan</span>
+      </button>
+      <button id="btn-home" class="btn-ghost sm icon-only" aria-label="Tampilan penuh">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>
+      </button>
+      <div id="menu-wrap">
+        <button id="btn-menu" class="btn-ghost sm icon-only" aria-label="Menu" aria-expanded="false">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>
+        </button>
+        <div id="menu-drop" role="menu">
+          <button id="m-quiz" role="menuitem"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.4 2.34c-.7.27-.9.83-.9 1.66"/><circle cx="12" cy="17" r="0.5" fill="currentColor"/></svg><span data-s="quiz">Kuis Pemahaman</span></button>
+          <button id="m-sim" role="menuitem"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 17h4l2-9 4 13 2-6h4"/></svg><span data-s="sim">Simulasi Investasi SDM</span></button>
+          <button id="m-model" role="menuitem"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3" y="4" width="18" height="4" rx="1"/><rect x="3" y="10" width="18" height="4" rx="1"/><rect x="3" y="16" width="18" height="4" rx="1"/></svg><span data-s="model">Model Ilmiah & Peta Jalan</span></button>
+          <button id="m-poster" role="menuitem"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M4 17v3h16v-3"/></svg><span data-s="poster">Unduh Poster (PNG)</span></button>
+          <button id="m-regrow" role="menuitem"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M20 11A8 8 0 1 0 12 20"/><path d="M20 4v7h-7"/></svg><span data-s="regrow">Tumbuhkan Ulang Pohon</span></button>
+          <button id="m-day" role="menuitem"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v2M12 19.5v2M4.5 12h-2M21.5 12h-2M6 6l1.4 1.4M16.6 16.6 18 18M18 6l-1.4 1.4M7.4 16.6 6 18"/></svg><span id="m-day-label">Suasana Malam</span></button>
+          <button id="m-lang" role="menuitem"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.7 3.8 9S14.5 18.4 12 21c-2.5-2.6-3.8-5.7-3.8-9S9.5 5.6 12 3z"/></svg><span data-s="lang">English</span></button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ======= NAV LAPISAN ======= -->
+  <nav id="layerbar" aria-label="Lapisan pohon">
+    <button class="chip" data-layer="buah"><i style="--c:#d4a017"></i><span>Buah</span></button>
+    <button class="chip" data-layer="daun"><i style="--c:#7fb069"></i><span>Daun</span></button>
+    <button class="chip" data-layer="cabang"><i style="--c:#5c8a3c"></i><span>Cabang</span></button>
+    <button class="chip" data-layer="batang"><i style="--c:#8a6a3b"></i><span>Batang</span></button>
+    <button class="chip" data-layer="akar"><i style="--c:#a9744a"></i><span>Akar</span></button>
+    <button class="chip" data-layer="intelligence"><i style="--c:#4cc9f0"></i><span>Analytics&nbsp;·&nbsp;AI</span></button>
+  </nav>
+
+  <!-- ======= PANEL INFO LAPISAN ======= -->
+  <aside id="panel" aria-live="polite">
+    <button id="panel-close" class="icon-btn" aria-label="Tutup panel">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+    <p id="panel-tag" class="eyebrow"></p>
+    <h2 id="panel-title"></h2>
+    <p id="panel-sub"></p>
+    <ul id="panel-list"></ul>
+  </aside>
+
+  <!-- ======= KARTU NODE ======= -->
+  <div id="node-card" role="dialog" aria-live="polite">
+    <button class="nc-close icon-btn" aria-label="Tutup">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+    <p class="nc-name"></p>
+    <p class="nc-detail"></p>
+    <div class="nc-actions"></div>
+  </div>
+
+  <!-- ======= KARTU TUR ======= -->
+  <section id="tour-card" aria-live="polite">
+    <div class="tour-top-actions">
+      <button id="tour-speak" class="icon-btn static" aria-label="Bacakan narasi">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg>
+      </button>
+      <button id="tour-close" class="icon-btn static" aria-label="Akhiri tur">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+    </div>
+    <p id="tour-tag" class="eyebrow"></p>
+    <h2 id="tour-title"></h2>
+    <p id="tour-text"></p>
+    <div class="tour-nav">
+      <button id="tour-prev" class="btn-ghost sm" data-s="prev">Kembali</button>
+      <div id="tour-dots" aria-hidden="true"></div>
+      <button id="tour-next" class="btn-gold sm" data-s="next">Lanjut</button>
+    </div>
+  </section>
+
+  <!-- ======= KUIS ======= -->
+  <section id="quiz" class="overlay" aria-live="polite">
+    <div class="overlay-card">
+      <button id="quiz-close" class="icon-btn" aria-label="Tutup kuis">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+      <p class="eyebrow" id="quiz-progress"></p>
+      <h2 id="quiz-q"></h2>
+      <div id="quiz-options"></div>
+      <p id="quiz-feedback"></p>
+      <div class="quiz-footer">
+        <span id="quiz-score"></span>
+        <button id="quiz-next" class="btn-gold sm" data-s="next">Lanjut</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= PENCARIAN / GLOSARIUM ======= -->
+  <section id="search" class="overlay">
+    <div class="overlay-card">
+      <button id="search-close" class="icon-btn" aria-label="Tutup pencarian">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+      <p class="eyebrow" data-s="searchTitle">Glosarium & Pencarian</p>
+      <input id="search-input" type="search" autocomplete="off" placeholder="Cari istilah…" aria-label="Cari istilah" />
+      <ul id="search-results"></ul>
+    </div>
+  </section>
+
+  <!-- ======= SIMULASI ======= -->
+  <section id="sim-card">
+    <button id="sim-close" class="icon-btn" aria-label="Tutup simulasi">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+    <p class="eyebrow" data-s="simTitle">Simulasi Investasi SDM</p>
+    <p id="sim-desc" data-s="simDesc"></p>
+    <div class="sim-slider">
+      <span data-s="simLow">Diabaikan</span>
+      <input id="sim-range" type="range" min="0" max="100" value="100" aria-label="Tingkat investasi SDM" />
+      <span data-s="simHigh">Sehat</span>
+    </div>
+  </section>
+
+  <!-- ======= MODEL ILMIAH ======= -->
+  <section id="model" class="overlay">
+    <div class="overlay-card wide">
+      <button id="model-close" class="icon-btn" aria-label="Tutup model">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+      <div id="model-body"></div>
+    </div>
+  </section>
+
+  <p id="hint" data-s="hint">Seret untuk memutar · gulir untuk memperbesar · klik titik bercahaya</p>
+
+  <script type="module" src="./js/main.js"></script>
+</body>
+</html>
