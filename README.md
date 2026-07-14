@@ -30,8 +30,11 @@ memetakan HR bukan sebagai kumpulan fungsi, melainkan sebagai **satu disiplin il
   itu; anak-simpulnya (ranting) merekah, dan **breadcrumb** (Pohon › Cabang › Learning › LMS)
   memandu naik-turun antar tingkat pengetahuan.
 - **Node ensiklopedik (Reader)** — tiap simpul membuka panel konten kaya: Definisi, Mengapa penting,
-  Konsep kunci (dapat diklik untuk melompat), sudut **People Analytics**, badge referensi kerangka
-  (HCBoK · HCOS · HCAF · PABoK · IHCMIS), dan simpul terkait. Deep-link: `?node=Learning`.
+  Konsep kunci (dapat diklik untuk melompat), sudut **People Analytics**, **Studi Kasus** (naratif),
+  **Template** (artefak siap pakai), badge referensi kerangka (HCBoK · HCOS · HCAF · PABoK · IHCMIS),
+  dan simpul terkait. 127 entri bespoke. Deep-link: `?node=Learning`.
+- **Glosarium** — 138 entri, dapat di-scroll, tanpa batas; klik untuk terbang ke simpulnya.
+  Deep-link: `?open=search`.
 - **Musim (living framework)** — menu *Musim*: Semi (pertumbuhan) · Panas (kapabilitas) ·
   Gugur (panen nilai) · Dingin (refleksi) — mengubah warna daun, tanah, langit, dan cahaya.
 - **Dwibahasa** — Indonesia / English (menu → English).

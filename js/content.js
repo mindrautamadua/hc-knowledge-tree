@@ -379,6 +379,7 @@ export const STRINGS = {
     lang: 'English',
     search: 'Cari istilah…',
     searchTitle: 'Glosarium & Pencarian',
+    searchEntries: 'entri',
     simTitle: 'Simulasi Investasi SDM',
     simDesc: 'Geser untuk melihat apa yang terjadi bila investasi pada manusia dikurangi: daun menguning, buah berguguran, dan aliran kecerdasan melemah.',
     simLow: 'Diabaikan', simHigh: 'Sehat',
@@ -425,6 +426,7 @@ export const STRINGS = {
     lang: 'Bahasa Indonesia',
     search: 'Search a term…',
     searchTitle: 'Glossary & Search',
+    searchEntries: 'entries',
     simTitle: 'People Investment Simulator',
     simDesc: 'Slide to see what happens when investment in people is cut: leaves turn yellow, fruit falls, and the intelligence flow weakens.',
     simLow: 'Neglected', simHigh: 'Healthy',
@@ -1462,9 +1464,130 @@ export const KNOWLEDGE = {
   },
 };
 
-// resolusi alias & pencarian entri
+// ============================================================
+// CASES — studi kasus (naratif) & template (artefak siap pakai)
+// Digabung ke KNOWLEDGE oleh getKnowledge().
+// ============================================================
+export const CASES = {
+  // ---------- 15 domain: studi kasus + template ----------
+  'Workforce Planning': {
+    case: B('Sebuah perusahaan ritel berencana membuka 40 gerai baru dalam setahun. Dengan pemodelan permintaan berbasis skenario, tim HC memproyeksikan kebutuhan 1.200 posisi dan mengidentifikasi kesenjangan supervisor lebih dini — sehingga rekrutmen & pelatihan dimulai 6 bulan sebelum pembukaan.',
+      'A retailer plans to open 40 new stores in a year. Using scenario-based demand modeling, the HC team projects a need for 1,200 roles and spots a supervisor gap early — so hiring & training begin six months before opening.'),
+    template: ['Strategic Workforce Plan', 'Demand Forecast Model', 'Skills-Gap Matrix', 'Scenario Planning Canvas', 'Headcount Budget Tracker'],
+  },
+  'Talent Acquisition': {
+    case: B('Sebuah startup teknologi kesulitan menarik engineer senior. Dengan memperbaiki employer branding dan memangkas proses seleksi dari 6 menjadi 3 tahap, time-to-fill turun 40% dan offer acceptance rate naik dari 55% ke 78%.',
+      'A tech startup struggled to attract senior engineers. By strengthening employer branding and cutting selection from six stages to three, time-to-fill dropped 40% and offer acceptance rose from 55% to 78%.'),
+    template: ['Job Description Template', 'Structured Interview Guide', 'Scorecard / Assessment Rubric', 'Candidate Experience Survey', 'Onboarding Checklist'],
+  },
+  'Core HR': {
+    case: B('Sebuah organisasi dengan data karyawan tersebar di lima spreadsheet mengalami kesalahan payroll berulang. Migrasi ke satu sumber data (single source of truth) menurunkan tingkat koreksi payroll dari 4% menjadi di bawah 0,5%.',
+      'An organization with employee data scattered across five spreadsheets suffered recurring payroll errors. Migrating to a single source of truth cut the payroll correction rate from 4% to under 0.5%.'),
+    template: ['Employee Master Data Schema', 'Payroll Run Checklist', 'Leave & Attendance Policy', 'Data Quality Audit Sheet'],
+  },
+  'Performance': {
+    case: B('Sebuah bank mengganti penilaian tahunan dengan OKR triwulanan plus check-in bulanan. Dalam setahun, keselarasan sasaran (goal line-of-sight) meningkat dan skor keterikatan pada item "saya tahu kontribusi saya" naik 18 poin.',
+      'A bank replaced annual reviews with quarterly OKRs plus monthly check-ins. Within a year, goal line-of-sight improved and engagement on "I know how I contribute" rose 18 points.'),
+    template: ['Goal / OKR Setting Sheet', 'Calibration Guide', 'Continuous Feedback Form', '1-on-1 Coaching Template', 'Performance Improvement Plan (PIP)'],
+  },
+  'Learning': {
+    case: B('Sebuah manufaktur menghadapi kesenjangan skill digital. Dengan learning path berbasis analisis kesenjangan dan LMS, 3.000 karyawan direskilling dalam 9 bulan; produktivitas lini yang dilatih naik 12%.',
+      'A manufacturer faced a digital skills gap. Using a gap-analysis-driven learning path and an LMS, 3,000 employees were reskilled in nine months; productivity on trained lines rose 12%.'),
+    template: ['Learning Needs Analysis', 'Competency Matrix', 'Learning Path Blueprint', 'Kirkpatrick Evaluation Sheet', '70-20-10 Development Plan'],
+  },
+  'Talent Management': {
+    case: B('Sebuah grup usaha menemukan 30% posisi kritis tanpa penerus siap. Melalui talent review dan 9-box, mereka membangun program hi-po; dua tahun kemudian, kedalaman bangku suksesi peran kritis mencapai 85%.',
+      'A conglomerate found 30% of critical roles had no ready successor. Through talent reviews and 9-box, they built a high-potential program; two years later, critical-role bench depth reached 85%.'),
+    template: ['Talent Review Deck', '9-Box Calibration Grid', 'Individual Development Plan (IDP)', 'Career Path Framework', 'Succession Bench Chart'],
+  },
+  'Rewards': {
+    case: B('Audit pay equity menemukan kesenjangan bayar gender 9% pada level yang sama. Dengan penyesuaian bertahap dan grading yang lebih transparan, kesenjangan turun ke 2% dalam 18 bulan dan keluhan terkait keadilan bayar menurun tajam.',
+      'A pay-equity audit found a 9% gender pay gap at the same level. Through phased adjustments and more transparent grading, the gap fell to 2% in 18 months and fairness-related grievances dropped sharply.'),
+    template: ['Salary Structure & Bands', 'Pay-Equity Audit Template', 'Job Evaluation Scorecard', 'Total Rewards Statement', 'Incentive Plan Design Sheet'],
+  },
+  'Employee Relations': {
+    case: B('Survei keterikatan mengungkap penurunan tajam pada satu divisi. Analitik komentar mengarah ke masalah beban kerja & manajer; intervensi terarah menaikkan eNPS divisi itu dari -10 ke +25 dalam dua siklus.',
+      'An engagement survey revealed a sharp drop in one division. Comment analytics pointed to workload & manager issues; targeted intervention lifted that division\'s eNPS from -10 to +25 in two cycles.'),
+    template: ['Engagement Survey Blueprint', 'Grievance Handling SOP', 'Wellbeing Program Plan', 'Exit Interview Guide', 'Stay Interview Template'],
+  },
+  'Industrial Relations': {
+    case: B('Menjelang negosiasi PKB, perusahaan memakai data tren perselisihan dan benchmark untuk menyiapkan posisi yang adil. Kesepakatan tercapai tanpa mogok, dan indeks iklim hubungan industrial membaik.',
+      'Ahead of collective bargaining, the company used dispute-trend data and benchmarks to prepare a fair position. An agreement was reached without a strike, and the industrial-relations climate index improved.'),
+    template: ['Collective Bargaining Prep Kit', 'Dispute Resolution SOP', 'Labor Compliance Checklist', 'Union Engagement Plan'],
+  },
+  'Organization Development': {
+    case: B('Setelah merger, dua budaya yang berbenturan menghambat integrasi. Program transformasi budaya dengan diagnosis budaya dan rancang ulang struktur menyatukan cara kerja; kesiapan perubahan naik dari 45% ke 80%.',
+      'After a merger, two clashing cultures hampered integration. A culture-transformation program with culture diagnosis and structure redesign unified ways of working; change readiness rose from 45% to 80%.'),
+    template: ['Operating Model Canvas', 'Org Design Blueprint', 'Change Management Plan (ADKAR)', 'Team Effectiveness Diagnostic', 'Stakeholder Map'],
+  },
+  'Leadership & Succession': {
+    case: B('CEO sebuah BUMN akan pensiun dalam tiga tahun. Program asesmen eksekutif dan akselerasi kepemimpinan menyiapkan tiga kandidat internal; transisi berjalan mulus tanpa kekosongan kepemimpinan.',
+      'A state enterprise\'s CEO would retire in three years. An executive-assessment and leadership-acceleration program readied three internal candidates; the transition was smooth with no leadership vacuum.'),
+    template: ['Leadership Competency Model', 'Succession Plan Template', 'Executive Assessment Report', '9-Box for Leaders', 'Coaching Engagement Plan'],
+  },
+  'Culture': {
+    case: B('Nilai perusahaan hanya terpajang di dinding, tidak dihidupi. Dengan menerjemahkan nilai menjadi perilaku konkret dan ritual, serta mengukurnya lewat culture survey, kesesuaian nilai–perilaku naik 22 poin dalam setahun.',
+      'The company values only hung on the wall, unlived. By translating values into concrete behaviors and rituals and measuring via a culture survey, values–behavior alignment rose 22 points in a year.'),
+    template: ['Values & Behaviors Framework', 'Culture Survey Instrument', 'Ritual / Ceremony Playbook', 'Internal Comms Calendar'],
+  },
+  'HSE': {
+    case: B('Sebuah tambang beralih dari fokus pada lagging indicator (jumlah kecelakaan) ke leading indicator dan pelaporan near-miss. Budaya pelaporan yang membaik menurunkan lost-time injury rate 60% dalam dua tahun.',
+      'A mining operation shifted from lagging indicators (accident counts) to leading indicators and near-miss reporting. An improved reporting culture cut the lost-time injury rate 60% in two years.'),
+    template: ['Risk Assessment (HIRADC)', 'Safety Inspection Checklist', 'Incident Investigation Form', 'Emergency Response Plan', 'Safety Culture Survey'],
+  },
+  'HR Operations': {
+    case: B('Tim HR menghabiskan 60% waktu untuk transaksi rutin. Dengan shared services, self-service, dan otomasi, tiket per bulan turun 45% dan waktu penyelesaian rata-rata dari 3 hari menjadi 6 jam.',
+      'An HR team spent 60% of its time on routine transactions. With shared services, self-service, and automation, monthly tickets fell 45% and average resolution time went from three days to six hours.'),
+    template: ['HR Service Catalog', 'SLA Definition Sheet', 'HR Process Map (SIPOC)', 'Helpdesk Knowledge Base', 'Document Retention Policy'],
+  },
+  'Digital Human Capital': {
+    case: B('Data HC tersebar di banyak sistem membuat laporan memakan waktu berhari-hari. Implementasi HRIS terintegrasi dan platform analitik memungkinkan dashboard real-time; keputusan berbasis bukti menjadi rutin, bukan proyek.',
+      'HC data scattered across many systems made reporting take days. An integrated HRIS and analytics platform enabled real-time dashboards; evidence-based decisions became routine, not a project.'),
+    template: ['HR Tech Architecture Map', 'HRIS Requirements Spec', 'Data Governance Charter', 'Analytics Dashboard Blueprint', 'Automation Opportunity Log'],
+  },
+
+  // ---------- Intelligence & batang ----------
+  'People Analytics': {
+    case: B('Sebuah bank kehilangan talenta terbaiknya tanpa tahu sebabnya. Model prediksi attrition mengidentifikasi 200 karyawan berisiko tinggi dan driver utamanya (kurang pertumbuhan karier); intervensi terarah menyelamatkan retensi senilai jutaan dolar.',
+      'A bank was losing its best talent without knowing why. An attrition-prediction model flagged 200 high-risk employees and the key driver (lack of career growth); targeted intervention saved millions in retention value.'),
+    template: ['People Analytics Use-Case Canvas', 'Metric Definition Dictionary', 'Attrition Model Spec', 'Dashboard Storyboard', 'Data Ethics & Privacy Checklist'],
+  },
+  'Human Capital · The Discipline': {
+    case: B('Sebuah perusahaan memperlakukan HR sebagai pusat biaya administratif. Dengan membingkai ulang Human Capital sebagai disiplin yang terhubung ke strategi — akar ilmu hingga buah nilai bisnis — fungsi HC naik ke meja direksi dan investasinya dinilai atas kontribusi bisnis.',
+      'A company treated HR as an administrative cost center. By reframing Human Capital as a discipline linked to strategy — from root sciences to the fruit of business value — the HC function earned a seat at the board and its investment was judged on business contribution.'),
+    template: ['HC Strategy on a Page', 'HC Maturity Assessment', 'HC Operating Model Canvas', 'People Value Chain Map'],
+  },
+
+  // ---------- Studi kasus untuk kapabilitas ----------
+  'Engagement': {
+    case: B('Rantai laba-layanan terbukti: gerai dengan skor keterikatan tertinggi mencatat kepuasan pelanggan 12% lebih tinggi dan turnover 20% lebih rendah dibanding gerai dengan skor terendah.',
+      'The service-profit chain in action: stores with the highest engagement scores posted 12% higher customer satisfaction and 20% lower turnover than the lowest-scoring stores.'),
+  },
+  'Agility': {
+    case: B('Saat pandemi, organisasi yang telah membangun agility mampu memindahkan 90% tenaga kerja ke remote dalam dua minggu dan me-redeploy talenta ke lini yang masih tumbuh — sementara pesaing membeku.',
+      'During the pandemic, organizations that had built agility moved 90% of their workforce remote in two weeks and redeployed talent to still-growing lines — while competitors froze.'),
+  },
+  'Innovation': {
+    case: B('Sebuah perusahaan consumer goods membuka pipeline gagasan lintas fungsi; dalam dua tahun, 15% pendapatan berasal dari produk yang belum ada sebelumnya — inovasi sebagai kapabilitas yang berbuah pertumbuhan.',
+      'A consumer-goods firm opened a cross-functional idea pipeline; within two years, 15% of revenue came from products that had not existed before — innovation as a capability bearing the fruit of growth.'),
+  },
+
+  // ---------- Studi kasus untuk outcome ----------
+  'Productivity': {
+    case: B('Dengan menghubungkan data engagement, pelatihan, dan kinerja, sebuah perusahaan menemukan bahwa tim dengan manajer terlatih coaching menghasilkan revenue per FTE 14% lebih tinggi — bukti langsung Human Capital → produktivitas.',
+      'By linking engagement, training, and performance data, a company found that teams with coaching-trained managers produced 14% higher revenue per FTE — direct proof of Human Capital → productivity.'),
+  },
+  'ESG': {
+    case: B('Investor menuntut laporan "S" yang kredibel. Dengan metrik people yang solid — DEI, keselamatan, pay equity — perusahaan meningkatkan peringkat ESG-nya dan menurunkan biaya modal.',
+      'Investors demanded credible "S" reporting. With solid people metrics — DEI, safety, pay equity — the company improved its ESG rating and lowered its cost of capital.'),
+  },
+};
+
+// resolusi alias & penggabungan studi kasus
 export function getKnowledge(name) {
   let k = KNOWLEDGE[name];
-  if (k && k.alias) k = KNOWLEDGE[k.alias];
-  return k || null;
+  if (k && k.alias) { name = k.alias; k = KNOWLEDGE[name]; }
+  if (!k) return null;
+  const extra = CASES[name];
+  return extra ? { ...k, ...extra } : k;
 }

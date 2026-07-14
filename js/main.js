@@ -259,7 +259,10 @@ const P = (t, cls) => { const e = document.createElement('p'); if (cls) e.classN
 function knowledgeFor(data) {
   const k = getKnowledge(data.name);
   const key = k?.key || RANTING[data.name] || RANTING_AKAR[data.name] || null;
-  if (k) return { def: tt(k.def), why: tt(k.why), refs: k.refs || [], related: k.related || [], metric: tt(k.metric), key };
+  if (k) return {
+    def: tt(k.def), why: tt(k.why), refs: k.refs || [], related: k.related || [],
+    metric: tt(k.metric), key, caseText: k.case ? tt(k.case) : '', template: k.template || [],
+  };
   // fallback
   const siblings = data.layer && LAYERS[data.layer]
     ? LAYERS[data.layer].items.map((i) => i.name).filter((n) => n !== data.name).slice(0, 4)
@@ -267,7 +270,7 @@ function knowledgeFor(data) {
   const defaultRefs = data.layer === 'intelligence' ? ['PABoK', 'HCBoK'] : ['HCBoK'];
   return {
     def: tt(data.detail), why: '', refs: data.parent ? [] : defaultRefs,
-    related: data.parent ? [data.parent] : siblings, metric: '', key,
+    related: data.parent ? [data.parent] : siblings, metric: '', key, caseText: '', template: [],
   };
 }
 
@@ -326,6 +329,20 @@ function openReader(data) {
   if (k.metric) {
     body.appendChild(H4(lang === 'id' ? 'Sudut People Analytics' : 'People Analytics angle'));
     body.appendChild(P(k.metric, 'metric'));
+  }
+  if (k.caseText) {
+    body.appendChild(H4(lang === 'id' ? 'Studi kasus' : 'Case study'));
+    body.appendChild(P(k.caseText, 'casebox'));
+  }
+  if (k.template && k.template.length) {
+    body.appendChild(H4(lang === 'id' ? 'Template' : 'Templates'));
+    const wrap = document.createElement('div'); wrap.className = 'r-chips r-tpl';
+    k.template.forEach((t) => {
+      const s = document.createElement('span');
+      s.className = 'tplbadge'; s.textContent = t;
+      wrap.appendChild(s);
+    });
+    body.appendChild(wrap);
   }
   if (k.refs && k.refs.length) {
     body.appendChild(H4(lang === 'id' ? 'Referensi kerangka' : 'Framework references'));
@@ -778,13 +795,14 @@ function renderSearch(qs) {
   const ul = $('#search-results');
   ul.innerHTML = '';
   const needle = qs.trim().toLowerCase();
-  let list = needle
+  const list = needle
     ? searchIndex.filter((e) =>
         e.name.toLowerCase().includes(needle) ||
         (e.parent && e.parent.toLowerCase().includes(needle)) ||
         (e.detail && tt(e.detail).toLowerCase().includes(needle)))
-    : searchIndex.slice(0, 14);
-  list = list.slice(0, 14);
+    : searchIndex; // tampilkan seluruh glosarium, tanpa batas
+  const count = $('#search-count');
+  if (count) count.textContent = `${list.length}`;
   if (!list.length) {
     ul.innerHTML = `<li class="empty">${S().noResult}</li>`;
     return;
@@ -938,6 +956,7 @@ if (params.get('node')) {
   const nm = findNodeMesh(params.get('node'));
   if (nm) setTimeout(() => drillIntoNode(nm, innerWidth / 2, innerHeight * 0.3), reduceMotion ? 50 : 800);
 }
+if (params.get('open') === 'search') setTimeout(openSearch, 120);
 
 // ============================================================
 // loop render

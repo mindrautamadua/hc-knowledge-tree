@@ -243,6 +243,25 @@ button:disabled { opacity: 0.35; cursor: default; }
 .r-chips button:hover { border-color: var(--gold); background: rgba(212, 160, 23, 0.12); }
 .r-chips .refbadge { color: var(--gold-soft); border-color: rgba(212, 160, 23, 0.4); cursor: help; }
 .r-key button::before { content: '↳ '; color: var(--gold); }
+#reader-body p.casebox {
+  font-size: 13.5px; line-height: 1.62; color: #e8e0cf;
+  background: rgba(212, 160, 23, 0.07); border: 1px solid rgba(212, 160, 23, 0.22);
+  border-radius: 12px; padding: 13px 15px; margin-top: 6px; font-style: italic;
+}
+.r-tpl { gap: 7px; }
+.tplbadge {
+  font-size: 12px; padding: 7px 12px 7px 28px; border-radius: 9px; position: relative;
+  border: 1px solid rgba(127, 176, 105, 0.35); background: rgba(127, 176, 105, 0.08);
+  color: #cfe6bf;
+}
+.tplbadge::before {
+  content: ''; position: absolute; left: 10px; top: 50%; width: 10px; height: 12px;
+  transform: translateY(-50%);
+  background: linear-gradient(#cfe6bf, #cfe6bf) no-repeat;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23fff' d='M6 2h9l5 5v15H6z'/%3E%3Cpath fill='%23000' d='M14 2v6h6'/%3E%3C/svg%3E") center/contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23fff' d='M6 2h9l5 5v15H6z'/%3E%3C/svg%3E") center/contain no-repeat;
+  opacity: 0.75;
+}
 body.reader-open #hint { opacity: 0; }
 
 @media (max-width: 768px) {
@@ -389,16 +408,29 @@ body.panel-open #hint { opacity: 0; }
 .quiz-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 #quiz-score { font-size: 13px; color: var(--gold-soft); font-weight: 600; letter-spacing: 0.04em; }
 
-/* ---------- pencarian ---------- */
+/* ---------- pencarian / glosarium ---------- */
+#search .overlay-card { display: flex; flex-direction: column; overflow: hidden; }
+#search-head {
+  position: sticky; top: 0; z-index: 2;
+  background: linear-gradient(180deg, rgba(7, 22, 14, 0.99) 82%, rgba(7, 22, 14, 0));
+  padding-bottom: 8px;
+}
 #search-input {
-  width: 100%; margin: 14px 0 16px;
+  width: 100%; margin: 14px 0 8px;
   padding: 13px 17px; border-radius: 13px;
   background: rgba(245, 241, 230, 0.06); color: var(--cream);
   border: 1px solid rgba(245, 241, 230, 0.18);
   font-family: var(--sans); font-size: 15px;
 }
 #search-input:focus { outline: 2px solid var(--gold-soft); outline-offset: 1px; }
-#search-results { list-style: none; display: grid; gap: 7px; }
+#search-meta { font-size: 11px; letter-spacing: 0.06em; color: var(--muted); text-transform: uppercase; }
+#search-meta #search-count { color: var(--gold-soft); font-weight: 700; }
+#search-results {
+  list-style: none; display: grid; gap: 7px;
+  overflow-y: auto; overscroll-behavior: contain;
+  padding: 4px 2px 2px; margin-top: 4px;
+  flex: 1; min-height: 0;
+}
 #search-results li button {
   width: 100%; display: flex; align-items: center; gap: 11px;
   padding: 11px 14px; border-radius: 12px; text-align: left;

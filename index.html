@@ -142,8 +142,11 @@
       <button id="search-close" class="icon-btn" aria-label="Tutup pencarian">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
       </button>
-      <p class="eyebrow" data-s="searchTitle">Glosarium & Pencarian</p>
-      <input id="search-input" type="search" autocomplete="off" placeholder="Cari istilah…" aria-label="Cari istilah" />
+      <div id="search-head">
+        <p class="eyebrow" data-s="searchTitle">Glosarium & Pencarian</p>
+        <input id="search-input" type="search" autocomplete="off" placeholder="Cari istilah…" aria-label="Cari istilah" />
+        <p id="search-meta"><span id="search-count"></span> <span data-s="searchEntries">entri</span></p>
+      </div>
       <ul id="search-results"></ul>
     </div>
   </section>
